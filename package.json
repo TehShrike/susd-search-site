@@ -1,0 +1,29 @@
+{
+  "name": "susd-search-site",
+  "version": "1.0.0",
+  "description": "Quickly search the Shut Up And Site Down archives",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TehShrike/susd-search-site.git"
+  },
+  "keywords": [
+    "su&sd",
+    "shut",
+    "up",
+    "and",
+    "sit",
+    "down",
+    "search",
+    "tabletop"
+  ],
+  "author": "TehShrike",
+  "license": "WTFPL",
+  "bugs": {
+    "url": "https://github.com/TehShrike/susd-search-site/issues"
+  },
+  "homepage": "https://github.com/TehShrike/susd-search-site#readme"
+}
