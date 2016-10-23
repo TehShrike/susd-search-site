@@ -1,52 +1,33 @@
-const http = require('http')
 const fs = require('fs')
 
-const parseHtml = require('susd-page-parser')
-const ecstatic = require('ecstatic')
+const Koa = require('koa')
+const serve = require('koa-static')
+const router = require('koa-router')()
+const app = new Koa()
+const denodeify = require('denodeify')
+const pageParser = require('susd-page-parser')
 
-const videoPageData = parseHtml(fs.readFileSync('./tmp-video-page.html'))
-const gamePageData = parseHtml(fs.readFileSync('./tmp-game-page.html'))
+const readFile = denodeify(fs.readFile.bind(fs))
 
-const development = true
-
-function getVideoPageData(cb) {
-	cb(null, videoPageData)
-}
-function getGamePageData(cb) {
-	cb(null, gamePageData)
-}
-
-const htmlIndex = fs.readFileSync('./index.html', { encoding: 'utf8' })
-
-const staticServer = ecstatic({ root: __dirname + '/client/static' })
-
-module.exports = function createServer() {
-	return http.createServer((req, res) => {
-		if (get(req, '/video')) {
-
-		} else if (get(req, '/')) {
-
-		} else {
-			staticServer(req, res)
-		}
-	})
+async function fetchOstensiblyCachedDataStructure(path) {
+	const gamePage = await readFile(path, { encoding: 'utf8' })
+	const dataStructure = pageParser(gamePage)
+	return dataStructure
 }
 
-function get(req, route) {
-	return req.type === 'GET' && req.url === route
-}
-
-function renderSearchPage(data) {
-
-}
-
-function pageGetterFactory(development) {
-	if (development) {
-		return function getPageFromDisk(cb) {
-
-		}
-	} else {
-		throw new Error('implement')
+function susdDataMiddleware(path) {
+	return async function(context, next) {
+		const dataPromise = fetchOstensiblyCachedDataStructure(path)
+		await next()
+		context.body = await dataPromise
 	}
 }
 
+router.get('/game', susdDataMiddleware('./tmp-game-page.html'))
+router.get('/video', susdDataMiddleware('./tmp-video-page.html'))
+
+app.use(router.routes())
+
+app.use(serve('./client/'))
+
+module.exports = app
