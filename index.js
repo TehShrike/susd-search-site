@@ -3,6 +3,8 @@ const fs = require('fs')
 const Koa = require('koa')
 const serve = require('koa-static')
 const router = require('koa-router')()
+const compress = require('koa-compress')
+
 const app = new Koa()
 const denodeify = require('denodeify')
 const pageParser = require('susd-page-parser')
@@ -17,6 +19,7 @@ async function fetchOstensiblyCachedDataStructure(path) {
 
 function susdDataMiddleware(path) {
 	return async function(context, next) {
+		context.set('Content-Type', 'application/javascript')
 		const dataPromise = fetchOstensiblyCachedDataStructure(path)
 		await next()
 		context.body = await dataPromise
@@ -25,6 +28,8 @@ function susdDataMiddleware(path) {
 
 router.get('/game', susdDataMiddleware('./tmp-game-page.html'))
 router.get('/video', susdDataMiddleware('./tmp-video-page.html'))
+
+app.use(compress())
 
 app.use(router.routes())
 

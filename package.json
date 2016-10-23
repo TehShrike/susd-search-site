@@ -36,6 +36,7 @@
     "denodeify": "1.2.1",
     "ecstatic": "2.1.0",
     "koa": "2.0.0-alpha.7",
+    "koa-compress": "2.0.0",
     "koa-static": "3.0.0",
     "susd-page-parser": "1.0.0"
   },
