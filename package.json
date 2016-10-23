@@ -6,8 +6,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "browserify client/index.js -o client/static/build.js",
-    "watch": "watchify client/index.js -o client/static/build.js -d",
+    "build": "browserify client/index.js -o public/build.js",
+    "watch": "watchify client/index.js -o public/build.js -d",
     "startdev": "nodemon server.js"
   },
   "repository": {

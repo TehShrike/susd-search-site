@@ -28,6 +28,6 @@ router.get('/video', susdDataMiddleware('./tmp-video-page.html'))
 
 app.use(router.routes())
 
-app.use(serve('./client/'))
+app.use(serve('./public/'))
 
 module.exports = app
