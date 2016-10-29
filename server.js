@@ -5,4 +5,4 @@ require(`babel-register`)({
 	]
 })
 
-require('./index').listen(process.env.PORT || 8888)
+require('./server/index').listen(process.env.PORT || 8888)

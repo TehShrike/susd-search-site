@@ -43,9 +43,9 @@ stateRouter.addState({
 	name: 'search.results',
 	route: '/:type(game|video)',
 	template: require('./search-results.html'),
-	resolve: (data, { type, search }) => searchTypes[type](search),
+	resolve: (data, { type, search }) => searchTypes[type](search).then(results => ({ results })),
 	activate: ({ domApi: ractive, parameters, content }) => {
-		console.log('search results are', content)
+
 	}
 })
 
