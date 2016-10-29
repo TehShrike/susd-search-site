@@ -29,9 +29,20 @@ stateRouter.addState({
 
 stateRouter.addState({
 	name: 'search',
-	route: '/search/:type(game|video)',
-	querystringParameters: [ 'search' ],
+	route: '/search',
+	defaultChild: 'results',
 	template: require('./search.html'),
+	querystringParameters: [ 'search' ],
+	defaultParameters: {
+		type: 'video',
+		search: '',
+	},
+})
+
+stateRouter.addState({
+	name: 'search.results',
+	route: '/:type(game|video)',
+	template: require('./search-results.html'),
 	resolve: (data, { type, search }) => searchTypes[type](search),
 	activate: ({ domApi: ractive, parameters, content }) => {
 		console.log('search results are', content)

@@ -15,7 +15,10 @@ module.exports = function searchData(source) {
 
 	return function search(searchString, cb) {
 		return valuePromise.then(data => {
-			return data.filter(result => result.title.toLowerCase().indexOf(searchString.toLowerCase()) > -1)
+			console.log('returning thing')
+			return searchString
+				? data.filter(result => result.title.toLowerCase().indexOf(searchString.toLowerCase()) > -1)
+				: data
 		})
 	}
 }
