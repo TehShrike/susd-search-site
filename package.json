@@ -45,6 +45,7 @@
     "loud-rejection": "1.6.0",
     "mkdirp": "0.5.1",
     "os-tmpdir": "1.0.2",
+    "p-filter": "1.0.0",
     "p-map": "1.0.0",
     "path-exists": "3.0.0",
     "sanitize-filename": "1.6.1",

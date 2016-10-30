@@ -51,9 +51,12 @@ async function downloadDataAndImages(type) {
 
 	return pMap(dataStructure, async item => {
 		const filename = await downloader(item.imageUrl)
-		// TODO: create resized images
-		const newUrl = path.join(imagePaths[type], filename)
-		const newItem = Object.assign(item, { imageUrl: newUrl })
+		const newItem = Object.assign(item, {
+			imageUrls: {
+				'1': path.join(imagePaths[type], '1', filename),
+				'2': path.join(imagePaths[type], '2', filename),
+			}
+		})
 
 		return newItem
 	}, { concurrency: 5 })
