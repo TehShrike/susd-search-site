@@ -2,7 +2,7 @@
   "name": "susd-search-site",
   "private": true,
   "version": "1.0.0",
-  "description": "Quickly search the Shut Up And Site Down archives",
+  "description": "Quickly search the Shut Up And Sit Down archives",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
