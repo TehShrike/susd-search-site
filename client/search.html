@@ -1,2 +1,12 @@
-<h1>Parent state</h1>
+<div>
+	<form
+		class="pure-form main-search-form"
+		onsubmit="return false"
+		on-submit="search"
+		action=""
+	>
+		<input type="text" placeholder="Game name" value="{{searchInput}}">
+		<button type="submit" class="pure-button pure-button-primary">Search...</button>
+	</form>
+</div>
 <ui-view></ui-view>

@@ -1,14 +1,13 @@
-<h1>Sup</h1>
-<table class="pure-table">
+<table class="pure-table pure-table-horizontal pure-table-striped" style="width: 100%">
 	<tbody>
 		{{#results}}
 			<tr>
 				<td>
-					<img src="{{imageUrls.2}}" alt="{{title}}" style="width: 320px; height: 240px">
+					<img src="{{imageUrls[naiveDevicePixelRatio()]}}" alt="{{title}}" style="width: 320px; height: 240px">
 				</td>
 				<td>
 					<h3>{{title}}</h3>
-					<ul>
+					<ul class="tag-list">
 						{{#tags}}
 							<li>{{.}}</li>
 						{{/tags}}

@@ -37,12 +37,24 @@ stateRouter.addState({
 		type: 'video',
 		search: '',
 	},
+	activate: ({ domApi: ractive }) => {
+		ractive.on('search', () => {
+			const searchTerm = ractive.get('searchInput')
+
+			stateRouter.go(null, { search: searchTerm }, { inherit: true })
+		})
+	}
 })
 
 stateRouter.addState({
 	name: 'search.results',
 	route: '/:type(game|video)',
-	template: require('./search-results.html'),
+	template: {
+		template: require('./search-results.html'),
+		data: {
+			naiveDevicePixelRatio: () => window.devicePixelRatio > 1 ? 2 : 1
+		}
+	},
 	resolve: (data, { type, search }) => searchTypes[type](search).then(results => ({ results })),
 	activate: ({ domApi: ractive, parameters, content }) => {
 
