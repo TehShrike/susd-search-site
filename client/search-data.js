@@ -14,10 +14,17 @@ module.exports = function searchData(source) {
 	const valuePromise = get(source)
 
 	return function search(searchString, cb) {
+		const lowercaseQuery = searchString.toLowerCase()
+
 		return valuePromise.then(data => {
 			return searchString
-				? data.filter(result => result.title.toLowerCase().indexOf(searchString.toLowerCase()) > -1)
+				? data.filter(result => match(result, lowercaseQuery))
 				: data
 		})
 	}
+}
+
+function match({ title, tags }, query) {
+	return title.toLowerCase().indexOf(query) > -1
+		|| tags.some(tag => tag.indexOf(query) > -1)
 }

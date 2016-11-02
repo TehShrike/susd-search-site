@@ -38,6 +38,8 @@ stateRouter.addState({
 		search: '',
 	},
 	activate: ({ domApi: ractive }) => {
+		ractive.find('input.search-query-input').focus()
+
 		ractive.on('search', () => {
 			const searchTerm = ractive.get('searchInput')
 
@@ -49,13 +51,13 @@ stateRouter.addState({
 stateRouter.addState({
 	name: 'search.results',
 	route: '/:type(game|video)',
-	template: {
-		template: require('./search-results.html'),
-		data: {
-			naiveDevicePixelRatio: () => window.devicePixelRatio > 1 ? 2 : 1
-		}
+	template: require('./search-results.html'),
+	resolve: (data, { type, search }) => {
+		return searchTypes[type](search).then(results => ({
+			results,
+			naiveDevicePixelRatio: (window.devicePixelRatio > 1 ? 2 : 1),
+		}))
 	},
-	resolve: (data, { type, search }) => searchTypes[type](search).then(results => ({ results })),
 	activate: ({ domApi: ractive, parameters, content }) => {
 
 	}
