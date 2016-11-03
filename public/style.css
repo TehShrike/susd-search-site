@@ -1,3 +1,7 @@
+.flex {
+	display: flex;
+}
+
 /* main page */
 
 @media (min-width: 500px) and (min-height: 400px) {
@@ -28,6 +32,10 @@
 
 }
 
+.results-page-search {
+	margin-left: 30px;
+}
+
 .tag-list {
 	list-style-type: none;
 
@@ -45,4 +53,14 @@
 
 .tag-list li:not(:last-child) {
 	margin-right: 7px;
+}
+
+
+
+
+
+
+.pure-menu-item.active .pure-menu-link,
+.pure-menu-item.active .pure-menu-link:visited {
+	color:#000
 }

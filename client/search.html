@@ -1,6 +1,33 @@
-<div>
+<div class="header flex">
+	<div class="pure-menu flex">
+		<a href="{{makePath('main')}}" class="pure-menu-heading pure-menu-link">Home</a>
+		<ul class="pure-menu-list flex">
+			<li
+				class="pure-menu-item"
+				as-active="'search.results','type:video'"
+			>
+				<a
+					href="{{makePath('search.results', { type: 'video' }, { inherit: true })}}"
+					class="pure-menu-link"
+				>
+					Videos
+				</a>
+			</li>
+			<li
+				class="pure-menu-item"
+				as-active="'search.results','type:game'"
+			>
+				<a
+					href="{{makePath('search.results', { type: 'game' }, { inherit: true })}}"
+					class="pure-menu-link"
+				>
+					Games
+				</a>
+			</li>
+		</ul>
+	</div>
 	<form
-		class="pure-form"
+		class="pure-form flex results-page-search"
 		onsubmit="return false"
 		on-submit="search"
 		action=""
