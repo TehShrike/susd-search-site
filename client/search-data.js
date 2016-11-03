@@ -14,6 +14,10 @@ module.exports = function searchData(source) {
 	const valuePromise = get(source)
 
 	return function search(searchString, cb) {
+		if (!searchString) {
+			return valuePromise
+		}
+
 		const lowercaseQuery = searchString.toLowerCase()
 
 		return valuePromise.then(data => {
