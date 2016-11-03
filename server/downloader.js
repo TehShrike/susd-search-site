@@ -52,6 +52,7 @@ module.exports = function makeDownloader({ outputDirectory, urlPrefix, skipIfExi
 		const needToDownload = imagesThatNeedToBeCreated.length > 0
 
 		if (needToDownload) {
+			console.log('downloading', url)
 			const data = await download(url)
 
 			await pMap(imagesThatNeedToBeCreated, ({ width, height, outputPath }) => {

@@ -21,6 +21,8 @@ const app = new Koa()
 const urlPrefix = 'https://www.shutupandsitdown.com/wp-content/uploads/'
 const tmpDir = osTmpdir()
 
+console.log('downloading images to', tmpDir)
+
 const imageDirectories = {
 	game: path.join(tmpDir, 'susd-game-img'),
 	video: path.join(tmpDir, 'susd-video-img'),
