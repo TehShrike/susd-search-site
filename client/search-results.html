@@ -1,8 +1,9 @@
+{{#if results && results.length > 0}}
 <table class="pure-table pure-table-horizontal pure-table-striped" style="width: 100%">
 	<tbody>
 		{{#results}}
 			<tr>
-				<td>
+				<td class="result-image-dolumn">
 					<externalLink url="{{url}}">
 						<img
 							src="{{imageUrls[naiveDevicePixelRatio]}}"
@@ -25,3 +26,8 @@
 		{{/results}}
 	</tbody>
 </table>
+{{/if}}
+
+{{#if results.length === 0}}
+<h2 style="text-align: center; white-space: nowrap;">No matches :-x</h2>
+{{/if}}
