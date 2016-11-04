@@ -1,4 +1,4 @@
-<div class="header flex" style="padding: 10px">
+<div class="header flex vertical-center" style="padding: 10px">
 	<div class="pure-menu flex">
 		<a href="{{makePath('main')}}" class="pure-menu-heading pure-menu-link">Home</a>
 		<ul class="pure-menu-list flex">
@@ -35,5 +35,12 @@
 		<input type="text" class="search-query-input" placeholder="Game name" value="{{searchInput}}">
 		<button type="submit" class="pure-button pure-button-primary">Search...</button>
 	</form>
+	{{#results.length}}
+	<div style="padding: 0 16px">
+		<p>
+			{{results.length}} results
+		</p>
+	</div>
+	{{/}}
 </div>
 <ui-view></ui-view>

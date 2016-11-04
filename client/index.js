@@ -47,10 +47,16 @@ stateRouter.addState({
 	route: '/search',
 	defaultChild: 'results',
 	template: require('./search.html'),
-	querystringParameters: [ 'search' ],
+	querystringParameters: [ 'search', 'type' ],
 	defaultParameters: {
 		type: 'video',
 		search: '',
+	},
+	resolve: (data, { type, search }) => {
+		return searchTypes[type](search).then(results => ({
+			results,
+			naiveDevicePixelRatio: (window.devicePixelRatio > 1 ? 2 : 1),
+		}))
 	},
 	activate: ({ domApi: ractive }) => {
 		ractive.find('input.search-query-input').focus()
@@ -71,12 +77,6 @@ stateRouter.addState({
 		components: {
 			externalLink
 		}
-	},
-	resolve: (data, { type, search }) => {
-		return searchTypes[type](search).then(results => ({
-			results,
-			naiveDevicePixelRatio: (window.devicePixelRatio > 1 ? 2 : 1),
-		}))
 	},
 	activate: ({ domApi: ractive, parameters, content }) => {
 

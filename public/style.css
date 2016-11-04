@@ -2,6 +2,10 @@
 	display: flex;
 }
 
+.vertical-center {
+	align-items: center;
+}
+
 /* main page */
 
 @media (min-width: 500px) and (min-height: 400px) {
