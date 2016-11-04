@@ -32,6 +32,14 @@
 
 }
 
+.bigly-header-link {
+	color: inherit;
+	text-decoration: none;
+}
+.bigly-header-link:hover {
+	text-decoration: underline;
+}
+
 .results-page-search {
 	margin-left: 30px;
 }

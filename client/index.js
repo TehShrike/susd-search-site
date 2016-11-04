@@ -27,6 +27,21 @@ stateRouter.addState({
 	}
 })
 
+const externalLink = Ractive.extend({
+	isolated: true,
+	template: `
+<a
+	href="{{url}}"
+	target="_blank"
+	rel="external noopener"
+	class="{{class}}"
+>
+	{{yield}}
+</a>
+
+`
+})
+
 stateRouter.addState({
 	name: 'search',
 	route: '/search',
@@ -51,7 +66,12 @@ stateRouter.addState({
 stateRouter.addState({
 	name: 'search.results',
 	route: '/:type(game|video)',
-	template: require('./search-results.html'),
+	template: {
+		template: require('./search-results.html'),
+		components: {
+			externalLink
+		}
+	},
 	resolve: (data, { type, search }) => {
 		return searchTypes[type](search).then(results => ({
 			results,
