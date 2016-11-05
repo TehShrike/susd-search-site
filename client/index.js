@@ -8,6 +8,8 @@ const renderer = makeRactiveStateRenderer(Ractive)
 
 const stateRouter = StateRouter(renderer, '#container')
 
+Ractive.decorators.selectOnFocus = require('ractive-select-on-focus')
+
 const searchTypes = {
 	video: searchData('/video'),
 	game: searchData('/game'),
@@ -22,7 +24,7 @@ stateRouter.addState({
 		ractive.on('search', () => {
 			const searchTerm = ractive.get('searchInput')
 
-			stateRouter.go('search', { search: searchTerm, type: 'video'})
+			stateRouter.go('search', { search: searchTerm, type: 'video' })
 		})
 	}
 })
@@ -89,6 +91,8 @@ stateRouter.addState({
 				results,
 				topTags,
 				selectedTags: makeTagMap(tags, topTags),
+				initialSearchQuery: search,
+				searchInput: search,
 			}
 		})
 	},

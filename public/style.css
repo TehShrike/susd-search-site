@@ -15,6 +15,11 @@
 	padding-right: 16px;
 }
 
+.pad-vertical {
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+
 .gray {
 	color: gray;
 }
