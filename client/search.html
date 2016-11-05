@@ -1,5 +1,5 @@
-<div class="header flex vertical-center" style="padding: 10px">
-	<div class="pure-menu flex">
+<div class="header flex vertical-center flex-wrap" style="padding: 10px">
+	<div class="pure-menu flex" style="margin-right: 30px;">
 		<a href="{{makePath('main')}}" class="pure-menu-heading pure-menu-link">Home</a>
 		<ul class="pure-menu-list flex">
 			<li
@@ -27,7 +27,7 @@
 		</ul>
 	</div>
 	<form
-		class="pure-form flex results-page-search"
+		class="pure-form flex pad-sides"
 		onsubmit="return false"
 		on-submit="search"
 		action=""
@@ -36,8 +36,8 @@
 		<button type="submit" class="pure-button pure-button-primary">Search...</button>
 	</form>
 	{{#results.length}}
-	<div style="padding: 0 16px">
-		<p>
+	<div class="pad-sides" style="padding-top: 4px; padding-bottom: 4px;">
+		<p class="gray" style="white-space: nowrap; margin: 0;">
 			{{results.length}} results
 		</p>
 	</div>
