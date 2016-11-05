@@ -38,51 +38,78 @@ const externalLink = Ractive.extend({
 >
 	{{yield}}
 </a>
-
 `
 })
 
+const searchResultsComponent = Ractive.extend({
+	isolated: true,
+	template: require('./search-results.html'),
+	components: {
+		externalLink
+	},
+	data: () => ({
+		results: [],
+		naiveDevicePixelRatio: (window.devicePixelRatio > 1 ? 2 : 1),
+	}),
+})
+
+function makeTagMap(selectedTags, topTags) {
+	const selectedTagsMap = {}
+	topTags.map(({ tag }) => {
+		selectedTagsMap[tag] = false
+	})
+	selectedTags.forEach(tag => {
+		selectedTagsMap[tag] = true
+	})
+	return selectedTagsMap
+}
+
 stateRouter.addState({
 	name: 'search',
-	route: '/search',
-	defaultChild: 'results',
-	template: require('./search.html'),
-	querystringParameters: [ 'search', 'type' ],
+	route: '/:type(game|video)',
+	template: {
+		template: require('./search.html'),
+		components: {
+			searchResults: searchResultsComponent
+		},
+		data: () => ({
+			selectedTags: {}
+		})
+	},
+	querystringParameters: [ 'search', 'type', 'tags' ],
 	defaultParameters: {
 		type: 'video',
 		search: '',
 	},
-	resolve: (data, { type, search }) => {
-		return searchTypes[type](search).then(({results, topTags}) => {
+	resolve: (data, { type, search, tags = [] }) => {
+		tags = Array.isArray(tags) ? tags : [tags]
+
+		return searchTypes[type](search, tags).then(({results, topTags}) => {
 			return {
 				results,
 				topTags,
-				naiveDevicePixelRatio: (window.devicePixelRatio > 1 ? 2 : 1),
+				selectedTags: makeTagMap(tags, topTags),
 			}
 		})
 	},
-	activate: ({ domApi: ractive }) => {
+	activate: ({ domApi: ractive, parameters: { type, search } }) => {
 		ractive.find('input.search-query-input').focus()
 
 		ractive.on('search', () => {
 			const searchTerm = ractive.get('searchInput')
 
-			stateRouter.go(null, { search: searchTerm }, { inherit: true })
+			stateRouter.go(null, { search: searchTerm, type })
 		})
-	}
-})
 
-stateRouter.addState({
-	name: 'search.results',
-	route: '/:type(game|video)',
-	template: {
-		template: require('./search-results.html'),
-		components: {
-			externalLink
-		}
-	},
-	activate: ({ domApi: ractive, parameters, content }) => {
+		ractive.on('filterByTags', () => {
+			const selectedTags = ractive.get('selectedTags')
+			const tags = Object.keys(selectedTags)
+				.filter(tag => selectedTags[tag])
 
+			const params = tags.length > 0 ? { type, search, tags } : { type, search }
+
+			stateRouter.go(null, params)
+		})
 	}
 })
 

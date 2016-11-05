@@ -13,18 +13,33 @@ function get(url) {
 module.exports = function searchData(source) {
 	const valuePromise = get(source)
 
-	return function search(searchString, cb) {
+	return function search(searchString, filterTags) {
 		return valuePromise.then(data => {
-			const results = searchString
+			const resultsBeforeTagFiltering = searchString
 				? data.filter(result => match(result, searchString.toLowerCase()))
 				: data
 
+			const results = filterTags.length === 0
+				? resultsBeforeTagFiltering
+				: containsAllTags({ items: resultsBeforeTagFiltering, filterTags })
+
 			return {
 				results,
-				topTags: topTagsFromResults(results)
+				topTags: topTagsFromResults(resultsBeforeTagFiltering)
 			}
 		})
 	}
+}
+
+function containsAllTags({ items, filterTags }) {
+	const filterTagMap = filterTags.reduce((map, tag) => {
+		map[tag] = true
+		return map
+	}, {})
+
+	return items.filter(({ tags }) => {
+		return filterTags.every(tag => tags.indexOf(tag) >= 0)
+	})
 }
 
 function match({ title, tags }, query) {

@@ -4,10 +4,10 @@
 		<ul class="pure-menu-list flex">
 			<li
 				class="pure-menu-item"
-				as-active="'search.results','type:video'"
+				as-active="'search','type:video'"
 			>
 				<a
-					href="{{makePath('search.results', { type: 'video' }, { inherit: true })}}"
+					href="{{makePath('search', { type: 'video' }, { inherit: true })}}"
 					class="pure-menu-link"
 				>
 					Videos
@@ -15,10 +15,10 @@
 			</li>
 			<li
 				class="pure-menu-item"
-				as-active="'search.results','type:game'"
+				as-active="'search','type:game'"
 			>
 				<a
-					href="{{makePath('search.results', { type: 'game' }, { inherit: true })}}"
+					href="{{makePath('search', { type: 'game' }, { inherit: true })}}"
 					class="pure-menu-link"
 				>
 					Games
@@ -48,11 +48,15 @@
 	{{#topTags}}
 		<li class="filter-tag gray pad-sides">
 			<label>
-				<input type="checkbox">
+				<input
+					type="checkbox"
+					checked="{{~/selectedTags[.tag]}}"
+					on-change="filterByTags"
+				>
 				{{tag}} ({{count}})
 			</label>
 		</li>
 	{{/topTags}}
 	</ol>
 </div>
-<ui-view></ui-view>
+<searchResults results="{{results}}"></searchResults>
