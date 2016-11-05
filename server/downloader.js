@@ -2,13 +2,12 @@ const sanitizeFilename = require('sanitize-filename')
 const denodeify = require('denodeify')
 const download = require('download')
 const mkdirp = denodeify(require('mkdirp'))
-const pathExists = require('path-exists')
 const sharp = require('sharp')
 const pMap = require('p-map')
 const pFilter = require('p-filter')
 
 const http = require('http')
-const fs = require('fs')
+const stat = denodeify(require('fs').stat)
 const path = require('path')
 
 const defaultSizes = [
@@ -46,7 +45,7 @@ module.exports = function makeDownloader({ outputDirectory, urlPrefix, skipIfExi
 		})
 
 		const imagesThatNeedToBeCreated = await (skipIfExists
-			? pFilter(imagesThatShouldExist, ({ outputPath }) => pathExists(outputPath).then(exists => !exists))
+			? pFilter(imagesThatShouldExist, ({ outputPath }) => nonzeroFileExists(outputPath).then(exists => !exists))
 			: imagesThatShouldExist)
 
 		const needToDownload = imagesThatNeedToBeCreated.length > 0
@@ -69,4 +68,12 @@ function resizeStream({ data, width, height, outputPath }) {
 		.resize(width, height)
 		.crop(sharp.gravity.north)
 		.toFile(outputPath)
+}
+
+function nonzeroFileExists(path) {
+	return stat(path).then(stats => {
+		return !!stats.size
+	}).catch(err => {
+		return false
+	})
 }
