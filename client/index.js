@@ -53,11 +53,13 @@ stateRouter.addState({
 		search: '',
 	},
 	resolve: (data, { type, search }) => {
-		return searchTypes[type](search).then(results => ({
-			results: results.results,
-			topTags: results.topTags,
-			naiveDevicePixelRatio: (window.devicePixelRatio > 1 ? 2 : 1),
-		}))
+		return searchTypes[type](search).then(({results, topTags}) => {
+			return {
+				results,
+				topTags,
+				naiveDevicePixelRatio: (window.devicePixelRatio > 1 ? 2 : 1),
+			}
+		})
 	},
 	activate: ({ domApi: ractive }) => {
 		ractive.find('input.search-query-input').focus()
