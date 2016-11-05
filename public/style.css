@@ -2,8 +2,25 @@
 	display: flex;
 }
 
+.flex-wrap {
+	flex-wrap: wrap;
+}
+
 .vertical-center {
 	align-items: center;
+}
+
+.pad-sides {
+	padding-left: 16px;
+	padding-right: 16px;
+}
+
+.gray {
+	color: gray;
+}
+
+.susd-orange {
+	color: #eb6d1c;
 }
 
 /* main page */
@@ -32,8 +49,14 @@
 
 /* search results */
 
-.search-query-input {
+.result-image-dolumn {
+	width: 320px;
+}
 
+@media (max-width: 760px) {
+	.result-image-dolumn {
+		display: none;
+	}
 }
 
 .bigly-header-link {
@@ -44,10 +67,6 @@
 	text-decoration: underline;
 }
 
-.results-page-search {
-	margin-left: 30px;
-}
-
 .tag-list {
 	list-style-type: none;
 
@@ -56,7 +75,6 @@
 
 	padding: 0;
 	font-size: .9em;
-	color: gray;
 }
 
 .tag-list li {
