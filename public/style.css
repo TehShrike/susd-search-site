@@ -86,6 +86,20 @@
 }
 
 
+@media (max-width: 650px) {
+	.filter-tag-list .filter-tag:nth-last-child(1),
+	.filter-tag-list .filter-tag:nth-last-child(2) {
+		display: none;
+	}
+}
+
+@media (max-width: 500px) {
+	.filter-tag-list .filter-tag:nth-last-child(3),
+	.filter-tag-list .filter-tag:nth-last-child(4) {
+		display: none;
+	}
+}
+
 
 
 

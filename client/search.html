@@ -43,4 +43,16 @@
 	</div>
 	{{/}}
 </div>
+<div>
+	<ol style="padding: 0; list-style-type: none;" class="flex flex-wrap filter-tag-list">
+	{{#topTags}}
+		<li class="filter-tag gray pad-sides">
+			<label>
+				<input type="checkbox">
+				{{tag}} ({{count}})
+			</label>
+		</li>
+	{{/topTags}}
+	</ol>
+</div>
 <ui-view></ui-view>

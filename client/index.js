@@ -54,7 +54,8 @@ stateRouter.addState({
 	},
 	resolve: (data, { type, search }) => {
 		return searchTypes[type](search).then(results => ({
-			results,
+			results: results.results,
+			topTags: results.topTags,
 			naiveDevicePixelRatio: (window.devicePixelRatio > 1 ? 2 : 1),
 		}))
 	},
