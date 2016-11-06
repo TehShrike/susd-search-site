@@ -1,6 +1,5 @@
 require('loud-rejection/register')
 
-const fs = require('fs')
 const path = require('path')
 
 const Koa = require('koa')
@@ -9,23 +8,23 @@ const router = require('koa-router')()
 const compress = require('koa-compress')
 const mount = require('koa-mount')
 
-const denodeify = require('denodeify')
-const pageParser = require('susd-page-parser')
-const osTmpdir = require('os-tmpdir')
-const pMap = require('p-map')
+const tmpDir = require('os-tmpdir')()
 
-const createDownloader = require('./downloader')
+const createImageDownloader = require('./image-downloader')
+const createCache = require('./download-cache')
 
 const app = new Koa()
 
-const urlPrefix = 'https://www.shutupandsitdown.com/wp-content/uploads/'
-const tmpDir = osTmpdir()
-
-console.log('downloading images to', tmpDir)
-
 const imageDirectories = {
 	game: path.join(tmpDir, 'susd-game-img'),
-	video: path.join(tmpDir, 'susd-video-img'),
+	video: path.join(tmpDir, 'susd-video-img')
+}
+
+console.log('downloading images to', tmpDir)
+const imageUrlPrefix = 'https://www.shutupandsitdown.com/wp-content/uploads/'
+const imageDownloaders = {
+	game: createImageDownloader({ outputDirectory: imageDirectories.game, urlPrefix: imageUrlPrefix }),
+	video: createImageDownloader({ outputDirectory: imageDirectories.video, urlPrefix: imageUrlPrefix }),
 }
 
 const imagePaths = {
@@ -33,45 +32,16 @@ const imagePaths = {
 	video: 'img/video',
 }
 
-const readFile = denodeify(fs.readFile.bind(fs))
+const getFromCache = createCache({ imagePaths, imageDownloaders })
 
-const filesOnDisk = {
-	game: './tmp-game-page.html',
-	video: './tmp-video-page.html',
-}
+getFromCache('game')
+getFromCache('video')
 
-const data = {
-	game: downloadDataAndImages('game'),
-	video: downloadDataAndImages('video'),
-}
-
-async function downloadDataAndImages(type) {
-	const downloader = createDownloader({ outputDirectory: imageDirectories[type], urlPrefix })
-	const htmlFileOnDisk = filesOnDisk[type]
-	const html = await readFile(htmlFileOnDisk, { encoding: 'utf8' })
-	const dataStructure = pageParser(html)
-
-	return pMap(dataStructure, async item => {
-		const filename = await downloader(item.imageUrl)
-		const newItem = Object.assign(item, {
-			imageUrls: {
-				'1': path.join(imagePaths[type], '1', filename),
-				'2': path.join(imagePaths[type], '2', filename),
-			}
-		})
-
-		return newItem
-	}, { concurrency: 5 })
-}
-
-async function fetchCachedDataStructure(type) {
-	return data[type]
-}
 
 function susdDataMiddleware(dataType) {
 	return async function(context, next) {
 		context.set('Content-Type', 'application/javascript')
-		const dataPromise = fetchCachedDataStructure(dataType)
+		const dataPromise = getFromCache(dataType)
 		await next()
 		context.body = await dataPromise
 	}
