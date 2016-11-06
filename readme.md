@@ -2,11 +2,13 @@
 
 [Node](https://nodejs.org/) 6 required.
 
-1. `git clone https://github.com/TehShrike/susd-search-site.git`
-2. `cd susd-search-site`
-3. `npm install`
-4. `npm run build`
-5. `npm run startdev`
+```sh
+git clone https://github.com/TehShrike/susd-search-site.git
+cd susd-search-site
+npm install
+npm run build
+npm run startdev
+```
 
 The server should be running at [localhost:8888](http://localhost:8888/).
 
