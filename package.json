@@ -1,5 +1,8 @@
 {
   "name": "susd-search-site",
+  "engines": {
+    "node": "7.x.x"
+  },
   "private": true,
   "version": "1.0.0",
   "description": "Quickly search the Shut Up And Sit Down archives",
@@ -8,6 +11,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "browserify client/index.js -o public/build.js",
     "watch": "watchify client/index.js -o public/build.js -d",
+    "start": "node server.js",
     "startdev": "nodemon server.js"
   },
   "repository": {
