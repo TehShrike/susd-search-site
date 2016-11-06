@@ -1,5 +1,5 @@
 const sanitizeFilename = require('sanitize-filename')
-const denodeify = require('denodeify')
+const denodeify = require('then-denodeify')
 const download = require('download')
 const mkdirp = denodeify(require('mkdirp'))
 const sharp = require('sharp')
