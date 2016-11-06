@@ -100,7 +100,8 @@ stateRouter.addState({
 
 		return searchTypes[type](search, tags).then(({results, topTags}) => {
 			return {
-				results,
+				allResults: results,
+				results: results.slice(0, 10),
 				topTags: makeSureAllTagsAreInTop(tags, topTags),
 				selectedTags: makeTagMap(tags, topTags),
 				initialSearchQuery: search,
@@ -109,7 +110,7 @@ stateRouter.addState({
 			}
 		})
 	},
-	activate: ({ domApi: ractive, parameters: { type, search } }) => {
+	activate: ({ domApi: ractive, parameters: { type, search }, content: { allResults } }) => {
 		ractive.find('input.search-query-input').focus()
 
 		ractive.on('search', () => {
@@ -131,6 +132,11 @@ stateRouter.addState({
 
 			stateRouter.go(null, params)
 		})
+
+		setTimeout(() => {
+			ractive.splice('results', 10, 0, ...allResults.slice(10))
+		}, 50)
+
 	}
 })
 
