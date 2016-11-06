@@ -16,9 +16,13 @@
 					<externalLink url="{{url}}" class="bigly-header-link">
 						<h2 class="susd-orange">{{title}}</h2>
 					</externalLink>
-					<ul class="tag-list gray">
+					<ul class="tag-list">
 						{{#tags}}
-							<li>{{.}}</li>
+							<li>
+								<a href="{{ makePath(null, { type: currentType, tags: [ this ]}) }}" class="gray">
+									{{.}}
+								</a>
+							</li>
 						{{/tags}}
 					</ul>
 				</td>

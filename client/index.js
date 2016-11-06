@@ -66,6 +66,19 @@ function makeTagMap(selectedTags, topTags) {
 	return selectedTagsMap
 }
 
+function makeSureAllTagsAreInTop(selectedTags, topTags) {
+	const topTagSet = new Set(topTags.map(({ tag }) => tag))
+	const tagsNotInMapAlready = selectedTags.filter(tag => !topTagSet.has(tag)).map(tag => ({
+		tag,
+		count: null
+	}))
+
+	return [
+		...tagsNotInMapAlready,
+		...topTags
+	]
+}
+
 stateRouter.addState({
 	name: 'search',
 	route: '/:type(game|video)',
@@ -81,18 +94,18 @@ stateRouter.addState({
 	querystringParameters: [ 'search', 'type', 'tags' ],
 	defaultParameters: {
 		type: 'video',
-		search: '',
 	},
-	resolve: (data, { type, search, tags = [] }) => {
+	resolve: (data, { type, search = '', tags = [] }) => {
 		tags = Array.isArray(tags) ? tags : [tags]
 
 		return searchTypes[type](search, tags).then(({results, topTags}) => {
 			return {
 				results,
-				topTags,
+				topTags: makeSureAllTagsAreInTop(tags, topTags),
 				selectedTags: makeTagMap(tags, topTags),
 				initialSearchQuery: search,
 				searchInput: search,
+				currentType: type,
 			}
 		})
 	},
@@ -110,7 +123,11 @@ stateRouter.addState({
 			const tags = Object.keys(selectedTags)
 				.filter(tag => selectedTags[tag])
 
-			const params = tags.length > 0 ? { type, search, tags } : { type, search }
+			const params = tags.length > 0 ? { type, tags } : { type }
+
+			if (search) {
+				params.search = search
+			}
 
 			stateRouter.go(null, params)
 		})

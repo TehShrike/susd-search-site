@@ -59,10 +59,10 @@
 					checked="{{~/selectedTags[.tag]}}"
 					on-change="filterByTags"
 				>
-				{{tag}} ({{count}})
+				{{tag}}{{#count}} ({{count}}){{/count}}
 			</label>
 		</li>
 	{{/topTags}}
 	</ol>
 </div>
-<searchResults results="{{results}}"></searchResults>
+<searchResults results="{{results}}" currentType="{{currentType}}"></searchResults>
