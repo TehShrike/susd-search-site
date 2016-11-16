@@ -2,9 +2,9 @@ const sanitizeFilename = require('sanitize-filename')
 const denodeify = require('then-denodeify')
 const download = require('download')
 const mkdirp = denodeify(require('mkdirp'))
-const sharp = require('sharp')
 const pMap = require('p-map')
 const pFilter = require('p-filter')
+const Jimp = require('jimp')
 
 const http = require('http')
 const stat = denodeify(require('fs').stat)
@@ -14,6 +14,8 @@ const defaultSizes = [
 	{ identifier: '1', width: 320, height: 240 },
 	{ identifier: '2', width: 640, height: 480 },
 ]
+
+const cropNorth = Jimp.HORIZONTAL_ALIGN_CENTER | Jimp.VERTICAL_ALIGN_TOP
 
 module.exports = function makeDownloader({ outputDirectory, urlPrefix, skipIfExists = true, sizes = defaultSizes }) {
 	const sizesPromise = pMap(sizes, async ({ identifier, width, height }) => {
@@ -51,11 +53,14 @@ module.exports = function makeDownloader({ outputDirectory, urlPrefix, skipIfExi
 		const needToDownload = imagesThatNeedToBeCreated.length > 0
 
 		if (needToDownload) {
-			console.log('downloading', url)
-			const data = await download(url)
 
-			await pMap(imagesThatNeedToBeCreated, ({ width, height, outputPath }) => {
-				return resizeStream({ data, width, height, outputPath })
+			// const data = await download(url)
+
+			download(url).then(async data => {
+				console.log('downloaded', url)
+				await pMap(imagesThatNeedToBeCreated, ({ width, height, outputPath }) => {
+					return resize({ data, width, height, outputPath })
+				})
 			})
 		}
 
@@ -63,11 +68,10 @@ module.exports = function makeDownloader({ outputDirectory, urlPrefix, skipIfExi
 	}
 }
 
-function resizeStream({ data, width, height, outputPath }) {
-	return sharp(data)
-		.resize(width, height)
-		.crop(sharp.gravity.north)
-		.toFile(outputPath)
+function resize({ data, width, height, outputPath }) {
+	return Jimp.read(data).then(image => {
+		return denodeify(image.cover(width, height, cropNorth).write(outputPath))
+	})
 }
 
 function nonzeroFileExists(path) {
