@@ -6,7 +6,6 @@
   "private": true,
   "version": "1.0.0",
   "description": "Quickly search the Shut Up And Sit Down archives",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "browserify client/index.js -o public/build.js",
@@ -39,9 +38,7 @@
     "babel-polyfill": "6.16.0",
     "babel-register": "6.16.3",
     "download": "5.0.2",
-    "ecstatic": "2.1.0",
-    "got": "6.6.1",
-    "jimp": "0.2.27",
+    "key-master": "2.0.1",
     "koa": "2.0.0-alpha.7",
     "koa-compress": "2.0.0",
     "koa-mount": "2.0.0",
