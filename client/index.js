@@ -3,6 +3,7 @@ const Ractive = require('ractive')
 const makeRactiveStateRenderer = require('ractive-state-router')
 
 const searchData = require('./search-data')
+const lazyloadDecorator = require('./ractive-lazyload')
 
 const renderer = makeRactiveStateRenderer(Ractive)
 
@@ -48,6 +49,9 @@ const searchResultsComponent = Ractive.extend({
 	template: require('./search-results.html'),
 	components: {
 		externalLink
+	},
+	decorators: {
+		lazy: lazyloadDecorator
 	},
 	data: () => ({
 		results: [],
