@@ -1,3 +1,5 @@
+const Fuse = require('fuse.js')
+
 function get(url) {
 	return new Promise((resolve, reject) => {
 		const request = new XMLHttpRequest()
@@ -11,13 +13,33 @@ function get(url) {
 
 
 module.exports = function searchData(source) {
-	const valuePromise = get(source)
+	const dataPromise = get(source).then(data => {
+		const dataWithTagsAsWords = data.map(data => {
+			return Object.assign(data, {
+				tagsAsWords: data.tags.map(tag => tag.replace('-', ' ')).join(' ')
+			})
+		})
+
+		const index = new Fuse(data, {
+			threshold: 0.5,
+			keys: [{
+				name: 'title',
+				weight: 0.8,
+			}, {
+				name: 'tagsAsWords',
+				weight: 0.2,
+			}]
+		})
+
+		return {
+			index,
+			data
+		}
+	})
 
 	return function search(searchString, filterTags) {
-		return valuePromise.then(data => {
-			const resultsBeforeTagFiltering = searchString
-				? data.filter(result => match(result, searchString.toLowerCase()))
-				: data
+		return dataPromise.then(({ data, index }) => {
+			const resultsBeforeTagFiltering = searchString ? index.search(searchString) : data
 
 			const results = filterTags.length === 0
 				? resultsBeforeTagFiltering
@@ -40,11 +62,6 @@ function containsAllTags({ items, filterTags }) {
 	return items.filter(({ tags }) => {
 		return filterTags.every(tag => tags.indexOf(tag) >= 0)
 	})
-}
-
-function match({ title, tags }, query) {
-	return title.toLowerCase().indexOf(query) > -1
-		|| tags.some(tag => tag.indexOf(query) > -1)
 }
 
 function topTagsFromResults(results, number = 10) {
