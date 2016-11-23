@@ -6,20 +6,34 @@ function nearViewport(node, cb) {
 	}, cb)
 }
 
+function noop() {}
+
 module.exports = function lazyLoadDecorator(node, imageUrl) {
-	if (nearViewport(node)) {
-		node.src = imageUrl
+	const originalSrc = node.src
+	let unwatch = evaluateNode(node, imageUrl)
 
-		return noopResponse
-	} else {
-		const watcher = nearViewport(node, () => node.src = imageUrl)
+	function reset() {
+		unwatch()
+		node.src = originalSrc
+	}
 
-		return {
-			teardown: () => watcher.dispose()
-		}
+	return {
+		update: imageUrl => {
+			reset()
+			unwatch = evaluateNode(node, imageUrl)
+		},
+		teardown: reset
 	}
 }
 
-const noopResponse = {
-	teardown: () => {}
+function evaluateNode(node, lazyLoadImageUrl) {
+	if (nearViewport(node)) {
+		node.src = lazyLoadImageUrl
+
+		return noop
+	} else {
+		const watcher = nearViewport(node, () => node.src = lazyLoadImageUrl)
+
+		return () => watcher.dispose()
+	}
 }
