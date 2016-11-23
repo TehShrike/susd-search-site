@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 744.09448819 1052.3622047"
+   id="svg4173"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="ampersand.svg">
+  <defs
+     id="defs4175" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="443.12506"
+     inkscape:cy="520"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:snap-global="true"
+     inkscape:window-width="792"
+     inkscape:window-height="1001"
+     inkscape:window-x="809"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata4178">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       style="fill:#e15c29;stroke:none;fill-opacity:1"
+       transform="matrix(1.5320123,0,0,-1.4940005,-34.582295,1079.7927)"
+       id="g6">
+      <path
+         inkscape:connector-curvature="0"
+         d="M 218,690 C 137,646 110,562 148,471 l 31,-74 -79,-75 C -80,151 95,-44 331,64 c 45,21 56,19 72,-10 22,-40 59,-44 93,-10 18,18 16,31 -8,58 -28,31 -28,39 2,85 36,56 1,162 -62,186 -40,16 -61,-8 -32,-37 27,-27 33,-116 8,-116 -9,0 -37,37 -63,82 l -46,82 62,56 C 520,589 406,792 218,690 Z M 360,581 c 0,-21 -21,-63 -47,-93 l -47,-55 -13,67 c -15,74 12,120 69,120 24,0 38,-14 38,-39 z M 220,303 c 0,-10 22,-50 49,-90 l 50,-73 -48,-11 C 142,96 81,168 149,271 c 31,48 71,66 71,32 z"
+         id="path8"
+         style="fill:#e15c29;fill-opacity:1" />
+    </g>
+  </g>
+</svg>
