@@ -10,6 +10,7 @@ const renderer = makeRactiveStateRenderer(Ractive)
 const stateRouter = StateRouter(renderer, '#container')
 
 Ractive.decorators.selectOnFocus = require('ractive-select-on-focus')
+Ractive.defaults.data.config = require('../config')
 
 const searchTypes = {
 	video: searchData('/video'),
@@ -56,6 +57,7 @@ const searchResultsComponent = Ractive.extend({
 	data: () => ({
 		results: [],
 		naiveDevicePixelRatio: (window.devicePixelRatio > 1 ? 2 : 1),
+		pathJoin: require('url-join')
 	}),
 })
 
