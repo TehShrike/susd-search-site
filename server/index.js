@@ -7,6 +7,7 @@ const serve = require('koa-static')
 const router = require('koa-router')()
 const compress = require('koa-compress')
 const mount = require('koa-mount')
+const conditionalGet = require('koa-conditional-get')
 
 const tmpDir = require('os-tmpdir')()
 
@@ -21,17 +22,23 @@ const getFromCache = createCache({
 getFromCache('game')
 getFromCache('video')
 
-function susdDataMiddleware(dataType) {
-	return async function(context, next) {
-		context.set('Content-Type', 'application/javascript')
-		const dataPromise = getFromCache(dataType)
+router.get('/:dataType(game|video)', async (context, next) => {
+	const { dataType } = context.params
+
+	context.set('Content-Type', 'application/javascript')
+	context.set('Cache-Control', 'public, must-revalidate')
+
+	const { dataPromise, lastModified } = getFromCache(dataType)
+
+	context.set('Last-Modified', lastModified.toUTCString())
+
+	if (context.stale) {
 		await next()
 		context.body = await dataPromise
 	}
-}
+})
 
-router.get('/game', susdDataMiddleware('game'))
-router.get('/video', susdDataMiddleware('video'))
+app.use(conditionalGet())
 
 app.use(compress())
 

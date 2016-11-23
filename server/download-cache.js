@@ -21,6 +21,8 @@ module.exports = function createDownloadingCache({ imageUrlPrefix }) {
 		return url.substring(imageUrlPrefix.length)
 	}
 
+	const lastModified = {}
+
 	const cache = createCache(db, nodeify(async function downloadData(type) {
 		console.log('downloading', addresses[type])
 		const html = await download(addresses[type])
@@ -36,7 +38,21 @@ module.exports = function createDownloadingCache({ imageUrlPrefix }) {
 		refreshEvery: ms('10 minutes'),
 		checkToSeeIfItemsNeedToBeRefreshedEvery: ms('1 minute'),
 		ttl: ms('1 week'),
+		comparison: (previous, current) => !previous || previous.length !== current.length
 	})
 
-	return denodeify(cache.get)
+	cache.on('change', type => {
+		lastModified[type] = new Date()
+	})
+
+	const getAsync = denodeify(cache.get)
+
+	return type => {
+		const dataPromise = getAsync(type)
+
+		return {
+			dataPromise,
+			lastModified: lastModified[type] || new Date()
+		}
+	}
 }
