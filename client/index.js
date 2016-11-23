@@ -18,17 +18,8 @@ const searchTypes = {
 }
 
 stateRouter.addState({
-	name: 'main',
-	template: require('./main.html'),
-	activate: ({ domApi: ractive }) => {
-		ractive.find('input').focus()
-
-		ractive.on('search', () => {
-			const searchTerm = ractive.get('searchInput')
-
-			stateRouter.go('search', { search: searchTerm, type: 'video' })
-		})
-	}
+	name: 'about',
+	template: require('./about.html')
 })
 
 const externalLink = Ractive.extend({
@@ -146,4 +137,4 @@ stateRouter.addState({
 	}
 })
 
-stateRouter.evaluateCurrentRoute('main')
+stateRouter.evaluateCurrentRoute('search', { type: 'video' })

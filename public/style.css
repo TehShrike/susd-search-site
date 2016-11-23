@@ -28,27 +28,7 @@
 	color: #eb6d1c;
 }
 
-/* main page */
-
-@media (min-width: 500px) and (min-height: 400px) {
-	.main-header {
-		margin-top: 100px;
-	}
-}
-
-.main-screen {
-	text-align: center;
-}
-
-.main-search-form {
-	font-size: 25px;
-}
-
-@media (min-width: 400px) {
-	.main-search-form input {
-		min-width: 15em;
-	}
-}
+/* about page */
 
 
 

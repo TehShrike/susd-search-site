@@ -1,11 +1,7 @@
 <div class="header flex vertical-center flex-wrap" style="padding: 10px">
 	<div class="pure-menu flex" style="margin-right: 30px;">
-		<a href="{{makePath('main')}}" class="pure-menu-heading pure-menu-link">Home</a>
 		<ul class="pure-menu-list flex">
-			<li
-				class="pure-menu-item"
-				as-active="'search','type:video'"
-			>
+			<li class="pure-menu-item" as-active="'search','type:video'">
 				<a
 					href="{{ makePath('search', { type: 'video', search: initialSearchQuery }) }}"
 					class="pure-menu-link"
@@ -13,10 +9,7 @@
 					Videos
 				</a>
 			</li>
-			<li
-				class="pure-menu-item"
-				as-active="'search','type:game'"
-			>
+			<li class="pure-menu-item" as-active="'search','type:game'">
 				<a
 					href="{{ makePath('search', { type: 'game', search: initialSearchQuery }) }}"
 					class="pure-menu-link"
@@ -24,7 +17,11 @@
 					Games
 				</a>
 			</li>
+			<!-- <li class="pure-menu-item" as-active="'about'">
+				<a href="{{makePath('about')}}" class="pure-menu-link">About</a>
+			</li> -->
 		</ul>
+
 	</div>
 	<form
 		class="pure-form flex pad-sides"
@@ -35,7 +32,7 @@
 		<input
 			type="text"
 			class="search-query-input"
-			placeholder="Game name"
+			placeholder="Search"
 			value="{{searchInput}}"
 			as-selectOnFocus
 		>
