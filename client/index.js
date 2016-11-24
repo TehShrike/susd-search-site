@@ -4,6 +4,7 @@ const makeRactiveStateRenderer = require('ractive-state-router')
 
 const searchData = require('./search-data')
 const lazyloadDecorator = require('./ractive-lazyload')
+const makeActiveDecorator = require('./ractive-state-active')
 
 const renderer = makeRactiveStateRenderer(Ractive)
 
@@ -16,11 +17,6 @@ const searchTypes = {
 	video: searchData('/video'),
 	game: searchData('/game'),
 }
-
-stateRouter.addState({
-	name: 'about',
-	template: require('./about.html')
-})
 
 const externalLink = Ractive.extend({
 	isolated: true,
@@ -36,11 +32,39 @@ const externalLink = Ractive.extend({
 `
 })
 
+stateRouter.on('stateChangeEnd', (state, params) => {
+	console.log('the state is now', state.name, params)
+})
+
+const activeDecorator = makeActiveDecorator(stateRouter)
+
+
+const menuComponent = Ractive.extend({
+	isolated: true,
+	twoway: false,
+	decorators: {
+		active: activeDecorator,
+		makePath: stateRouter.makePath
+	},
+	template: require('./menu.html')
+})
+
+stateRouter.addState({
+	name: 'about',
+	route: '/about',
+	template: {
+		template: require('./about.html'),
+		components: {
+			menu: menuComponent
+		},
+	},
+})
+
 const searchResultsComponent = Ractive.extend({
 	isolated: true,
 	template: require('./search-results.html'),
 	components: {
-		externalLink
+		externalLink,
 	},
 	decorators: {
 		lazy: lazyloadDecorator
@@ -82,7 +106,8 @@ stateRouter.addState({
 	template: {
 		template: require('./search.html'),
 		components: {
-			searchResults: searchResultsComponent
+			searchResults: searchResultsComponent,
+			menu: menuComponent
 		},
 		data: () => ({
 			selectedTags: {}

@@ -1,28 +1,5 @@
-<div class="header flex vertical-center flex-wrap" style="padding: 10px">
-	<div class="pure-menu flex" style="margin-right: 30px;">
-		<ul class="pure-menu-list flex">
-			<li class="pure-menu-item" as-active="'search','type:video'">
-				<a
-					href="{{ makePath('search', { type: 'video', search: initialSearchQuery }) }}"
-					class="pure-menu-link"
-				>
-					Videos
-				</a>
-			</li>
-			<li class="pure-menu-item" as-active="'search','type:game'">
-				<a
-					href="{{ makePath('search', { type: 'game', search: initialSearchQuery }) }}"
-					class="pure-menu-link"
-				>
-					Games
-				</a>
-			</li>
-			<!-- <li class="pure-menu-item" as-active="'about'">
-				<a href="{{makePath('about')}}" class="pure-menu-link">About</a>
-			</li> -->
-		</ul>
-
-	</div>
+<div class="header flex vertical-center flex-wrap">
+	<menu initialSearchQuery="{{initialSearchQuery}}"></menu>
 	<form
 		class="pure-form flex pad-sides"
 		onsubmit="return false"

@@ -1,0 +1,23 @@
+<div class="pure-menu flex" style="margin-right: 30px;">
+	<ul class="pure-menu-list flex">
+		<li class="pure-menu-item" as-active="'search', { type: 'video' }, 'pure-menu-selected'">
+			<a
+				href="{{ makePath('search', { type: 'video', search: initialSearchQuery }) }}"
+				class="pure-menu-link"
+			>
+				Videos
+			</a>
+		</li>
+		<li class="pure-menu-item" as-active="'search', { type: 'game' }, 'pure-menu-selected'">
+			<a
+				href="{{ makePath('search', { type: 'game', search: initialSearchQuery }) }}"
+				class="pure-menu-link"
+			>
+				Games
+			</a>
+		</li>
+		<li class="pure-menu-item" as-active="'about', undefined, 'pure-menu-selected'">
+			<a href="{{makePath('about')}}" class="pure-menu-link">About</a>
+		</li>
+	</ul>
+</div>
