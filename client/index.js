@@ -32,12 +32,7 @@ const externalLink = Ractive.extend({
 `
 })
 
-stateRouter.on('stateChangeEnd', (state, params) => {
-	console.log('the state is now', state.name, params)
-})
-
 const activeDecorator = makeActiveDecorator(stateRouter)
-
 
 const menuComponent = Ractive.extend({
 	isolated: true,

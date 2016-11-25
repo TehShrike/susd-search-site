@@ -5,7 +5,6 @@ module.exports = function makeStateIsActiveDecorator(stateRouter) {
 
 		function applyCurrentState() {
 			if (stateRouter.stateIsActive(stateName, options)) {
-				console.log('it is!')
 				node.classList.add(className)
 			} else {
 				node.classList.remove(className)
