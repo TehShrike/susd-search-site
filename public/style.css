@@ -10,6 +10,10 @@
 	align-items: center;
 }
 
+.horizontal-center {
+	justify-content: center;
+}
+
 .pad-sides {
 	padding-left: 16px;
 	padding-right: 16px;
@@ -55,6 +59,7 @@
 }
 .bigly-header-link:hover {
 	text-decoration: underline;
+	text-decoration-color: gray;
 }
 
 .tag-list {
