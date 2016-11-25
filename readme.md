@@ -16,3 +16,8 @@ That's all you should need to do to run it locally.  If that doesn't work for yo
 
 To develop the client side app, run `npm run watch` in another terminal window to have a process automatically watch for changes and rebuild the client app when necessary.
 
+# Image server
+
+The automatically-resized-images server code is at [susd-image-mirror](https://github.com/TehShrike/susd-image-mirror).
+
+If you want to point to a locally-running image server, set `imageServer` in `config.js` to something like `//localhost:8889/`.
