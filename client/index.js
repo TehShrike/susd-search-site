@@ -157,4 +157,23 @@ stateRouter.addState({
 	}
 })
 
+stateRouter.addState({
+	name: 'notFound',
+	route: '(.*)',
+	template: {
+		template: `
+			<div class="header flex vertical-center">
+				<menu></menu>
+			</div>
+			<div class="flex horizontal-center">
+				<h1>Not Found</h1>
+			</div>
+		`,
+		components: {
+			searchResults: searchResultsComponent,
+			menu: menuComponent
+		},
+	},
+})
+
 stateRouter.evaluateCurrentRoute('search', { type: 'video' })
