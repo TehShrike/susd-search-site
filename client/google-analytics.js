@@ -1,7 +1,6 @@
 
 module.exports = function sendAnalyticsBasedOnStateChanges(stateRouter) {
 	stateRouter.on('stateChangeStart', () => {
-		console.log('setting current page to', currentHashPath())
 		ga('set', 'page', currentHashPath())
 		ga('send', 'pageview')
 	})
