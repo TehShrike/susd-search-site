@@ -1,9 +1,9 @@
 const StateRouter = require('abstract-state-router')
 const Ractive = require('ractive')
 const makeRactiveStateRenderer = require('ractive-state-router')
+const lazyloadDecorator = require('ractive-lazyload-img')
 
 const searchData = require('./search-data')
-const lazyloadDecorator = require('./ractive-lazyload')
 const makeActiveDecorator = require('./ractive-state-active')
 const sendAnalyticsBasedOnStateChanges = require('./google-analytics')
 
@@ -116,9 +116,9 @@ stateRouter.addState({
 		type: 'video',
 	},
 	resolve: (data, { type, search = '', tags = [] }) => {
-		tags = Array.isArray(tags) ? tags : [tags]
+		tags = Array.isArray(tags) ? tags : [ tags ]
 
-		return searchTypes[type](search, tags).then(({results, topTags}) => {
+		return searchTypes[type](search, tags).then(({ results, topTags }) => {
 			return {
 				allResults: results,
 				results: results.slice(0, 10),
