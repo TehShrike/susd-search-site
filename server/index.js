@@ -6,7 +6,6 @@ const Koa = require('koa')
 const serve = require('koa-static')
 const router = require('koa-router')()
 const compress = require('koa-compress')
-const mount = require('koa-mount')
 const conditionalGet = require('koa-conditional-get')
 
 const tmpDir = require('os-tmpdir')()
