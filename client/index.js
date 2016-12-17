@@ -4,7 +4,7 @@ const makeRactiveStateRenderer = require('ractive-state-router')
 const lazyloadDecorator = require('ractive-lazyload-img')
 
 const searchData = require('./search-data')
-const makeActiveDecorator = require('./ractive-state-active')
+const makeActiveDecorator = require('ractive-state-router/active-decorator')
 const sendAnalyticsBasedOnStateChanges = require('./google-analytics')
 
 const renderer = makeRactiveStateRenderer(Ractive)
@@ -41,8 +41,7 @@ const menuComponent = Ractive.extend({
 	isolated: true,
 	twoway: false,
 	decorators: {
-		active: activeDecorator,
-		makePath: stateRouter.makePath
+		active: activeDecorator
 	},
 	template: require('./menu.html')
 })
