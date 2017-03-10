@@ -1,7 +1,7 @@
 {
   "name": "susd-search-site",
   "engines": {
-    "node": "7.x.x"
+    "node": ">=7.7.2"
   },
   "private": true,
   "version": "1.0.0",
@@ -35,8 +35,7 @@
   "homepage": "https://github.com/TehShrike/susd-search-site#readme",
   "dependencies": {
     "babel-plugin-transform-async-to-generator": "6.16.0",
-    "babel-polyfill": "6.16.0",
-    "babel-register": "6.16.3",
+    "babel-preset-es2015": "6.14.0",
     "download": "5.0.2",
     "key-master": "2.0.1",
     "koa": "2.0.0-alpha.7",
