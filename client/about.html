@@ -1,5 +1,5 @@
 <div class="header flex vertical-center">
-	<menu></menu>
+	<Menu></Menu>
 </div>
 <div class="flex horizontal-center">
 	<div class="pad-sides pad-vertical" style="max-width: 700px;">
@@ -39,3 +39,13 @@
 		</p>
 	</div>
 </div>
+
+<script>
+const menuComponent = require('./menu.html')
+
+export default {
+	components: {
+		Menu: menuComponent
+	}
+}
+</script>

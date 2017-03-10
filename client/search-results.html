@@ -1,34 +1,35 @@
 {{#if results && results.length > 0}}
 <table class="pure-table pure-table-horizontal pure-table-striped" style="width: 100%">
 	<tbody>
-		{{#results}}
+		{{#each results as result}}
 			<tr>
 				<td class="result-image-dolumn">
-					<externalLink url="{{url}}">
+					<ExternalLink url="{{result.url}}" config="{{config}}" result="{{result}}">
 						<img
-							src="/transparent-pixel.png"
-							as-lazy="pathJoin(config.imageServer, naiveDevicePixelRatio, imageUrl)"
-							alt="{{title}}"
+							original-src="/transparent-pixel.png"
+							lazy-src="pathJoin(config.imageServer, naiveDevicePixelRatio, result.imageUrl)"
+							alt="{{result && result.title}}"
 							style="width: 320px; height: 240px"
 						/>
-					</externalLink>
+					</ExternalLink>
 				</td>
 				<td>
-					<externalLink url="{{url}}" class="bigly-header-link">
-						<h2 class="susd-orange">{{title}}</h2>
-					</externalLink>
+					{{result && result.title}}
+					<ExternalLink url="{{result.url}}" clazz="bigly-header-link" result="{{result}}">
+						<h2 class="susd-orange">{{result && result.title}}</h2>
+					</ExternalLink>
 					<ul class="tag-list">
-						{{#tags}}
+						{{#each result.tags as tag}}
 							<li class="pad-vertical">
-								<a href="{{ makePath(null, { type: currentType, tags: [ this ]}) }}" class="gray">
-									{{.}}
+								<a href="{{ asr.makePath(null, { type: currentType, tags: [ tag ]}) }}" class="gray">
+									{{tag}}
 								</a>
 							</li>
-						{{/tags}}
+						{{/each}}
 					</ul>
 				</td>
 			</tr>
-		{{/results}}
+		{{/each}}
 	</tbody>
 </table>
 {{/if}}
@@ -36,3 +37,25 @@
 {{#if results.length === 0}}
 <h2 class="gray" style="text-align: center; white-space: nowrap;">No matches :-x</h2>
 {{/if}}
+
+<script>
+
+const pathJoin = require('url-join')
+const ExternalLink = require('./external-link.html')
+
+// Still need lazy-loading
+export default {
+	data() {
+		return {
+			results: [],
+			naiveDevicePixelRatio: (window.devicePixelRatio > 1 ? 2 : 1),
+		}
+	},
+	components: {
+		ExternalLink,
+	},
+	methods: {
+		pathJoin
+	}
+}
+</script>

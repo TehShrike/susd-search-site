@@ -1,42 +1,88 @@
 <div class="header flex vertical-center flex-wrap">
-	<menu initialSearchQuery="{{initialSearchQuery}}"></menu>
+	<Menu initialSearchQuery="{{initialSearchQuery}}" asr="{{asr}}"></Menu>
 	<form
 		class="pure-form flex pad-sides"
 		onsubmit="return false"
-		on-submit="search"
+		on:submit="search(searchInput)"
 		action=""
 	>
 		<input
 			type="text"
-			class="search-query-input"
+			ref:initialFocus
 			placeholder="Search"
-			value="{{searchInput}}"
+			bind:value="searchInput"
 			as-selectOnFocus
 		>
 		<button type="submit" class="pure-button pure-button-primary">Search...</button>
 	</form>
-	{{#allResults.length}}
+	{{#if allResults.length}}
 	<div class="pad-sides pad-vertical" style="flex-grow: 1; text-align: center">
 		<p class="gray" style="white-space: nowrap; margin: 0;">
 			{{allResults.length}} results
 		</p>
 	</div>
-	{{/}}
+	{{/if}}
 </div>
 <div>
 	<ol style="padding: 0; list-style-type: none;" class="flex flex-wrap filter-tag-list">
-	{{#topTags}}
+	{{#each topTags as topTag}}
 		<li class="filter-tag gray pad-sides pad-vertical">
 			<label>
 				<input
 					type="checkbox"
-					checked="{{~/selectedTags[.tag]}}"
-					on-change="filterByTags"
+					checked="{{selectedTags[topTag.tag]}}"
+					on:change="filterByTags(selectedTags)"
 				>
-				{{tag}}{{#count}} ({{count}}){{/count}}
+				{{topTag.tag}}{{#if topTag.count}} ({{topTag.count}}){{/if}}
 			</label>
 		</li>
-	{{/topTags}}
+	{{/each}}
 	</ol>
 </div>
-<searchResults results="{{results}}" currentType="{{currentType}}"></searchResults>
+<SearchResults results="{{results}}" currentType="{{currentType}}" asr="{{asr}}" />
+
+<script>
+const menuComponent = require('./menu.html')
+const searchResultsComponent = require('./search-results.html')
+
+// still need lazy-loading
+export default {
+	onrender() {
+		this.refs.initialFocus.focus()
+
+		setTimeout(() => {
+			this.set({
+				results: this.get('allResults')
+			})
+		}, 50)
+	},
+	data: () => ({
+		selectedTags: {}
+	}),
+	components: {
+		SearchResults: searchResultsComponent,
+		Menu: menuComponent
+	},
+	methods: {
+		search(searchTerm) {
+			const { type } = this.get('parameters')
+
+			this.get('asr').go(null, { search: searchTerm, type })
+		},
+		filterByTags(selectedTags) {
+			const { type, search } = this.get('parameters')
+
+			const tags = Object.keys(selectedTags)
+				.filter(tag => selectedTags[tag])
+
+			const params = tags.length > 0 ? { type, tags } : { type }
+
+			if (search) {
+				params.search = search
+			}
+
+			this.get('asr').go(null, params)
+		}
+	}
+}
+</script>

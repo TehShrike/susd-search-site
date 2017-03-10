@@ -1,76 +1,26 @@
 const StateRouter = require('abstract-state-router')
-const Ractive = require('ractive')
-const makeRactiveStateRenderer = require('ractive-state-router')
-const lazyloadDecorator = require('ractive-lazyload-img')
+const makeSvelteStateRenderer = require('svelte-state-renderer')
 
 const searchData = require('./search-data')
-const makeActiveDecorator = require('ractive-state-router/active-decorator')
 const sendAnalyticsBasedOnStateChanges = require('./google-analytics')
 
-const renderer = makeRactiveStateRenderer(Ractive)
+const renderer = makeSvelteStateRenderer({
+	data: require('../config')
+})
 
-const stateRouter = StateRouter(renderer, '#container')
+const stateRouter = StateRouter(renderer, document.getElementById('container'))
 
 sendAnalyticsBasedOnStateChanges(stateRouter)
-
-Ractive.decorators.selectOnFocus = require('ractive-select-on-focus')
-Ractive.defaults.data.config = require('../config')
 
 const searchTypes = {
 	video: searchData('/video'),
 	game: searchData('/game'),
 }
 
-const externalLink = Ractive.extend({
-	isolated: true,
-	template: `
-<a
-	href="{{url}}"
-	target="_blank"
-	rel="external noopener"
-	class="{{class}}"
->
-	{{yield}}
-</a>
-`
-})
-
-const activeDecorator = makeActiveDecorator(stateRouter)
-
-const menuComponent = Ractive.extend({
-	isolated: true,
-	twoway: false,
-	decorators: {
-		active: activeDecorator
-	},
-	template: require('./menu.html')
-})
-
 stateRouter.addState({
 	name: 'about',
 	route: '/about',
-	template: {
-		template: require('./about.html'),
-		components: {
-			menu: menuComponent
-		},
-	},
-})
-
-const searchResultsComponent = Ractive.extend({
-	isolated: true,
-	template: require('./search-results.html'),
-	components: {
-		externalLink,
-	},
-	decorators: {
-		lazy: lazyloadDecorator
-	},
-	data: () => ({
-		results: [],
-		naiveDevicePixelRatio: (window.devicePixelRatio > 1 ? 2 : 1),
-		pathJoin: require('url-join')
-	}),
+	template: require('./about.html'),
 })
 
 function makeTagMap(selectedTags, topTags) {
@@ -100,16 +50,7 @@ function makeSureAllTagsAreInTop(selectedTags, topTags) {
 stateRouter.addState({
 	name: 'search',
 	route: '/:type(game|video)',
-	template: {
-		template: require('./search.html'),
-		components: {
-			searchResults: searchResultsComponent,
-			menu: menuComponent
-		},
-		data: () => ({
-			selectedTags: {}
-		})
-	},
+	template: require('./search.html'),
 	querystringParameters: [ 'search', 'type', 'tags' ],
 	defaultParameters: {
 		type: 'video',
@@ -118,6 +59,7 @@ stateRouter.addState({
 		tags = Array.isArray(tags) ? tags : [ tags ]
 
 		return searchTypes[type](search, tags).then(({ results, topTags }) => {
+			console.log(results)
 			return {
 				allResults: results,
 				results: results.slice(0, 10),
@@ -128,54 +70,13 @@ stateRouter.addState({
 				currentType: type,
 			}
 		})
-	},
-	activate: ({ domApi: ractive, parameters: { type, search }, content: { allResults } }) => {
-		ractive.find('input.search-query-input').focus()
-
-		ractive.on('search', () => {
-			const searchTerm = ractive.get('searchInput')
-
-			stateRouter.go(null, { search: searchTerm, type })
-		})
-
-		ractive.on('filterByTags', () => {
-			const selectedTags = ractive.get('selectedTags')
-			const tags = Object.keys(selectedTags)
-				.filter(tag => selectedTags[tag])
-
-			const params = tags.length > 0 ? { type, tags } : { type }
-
-			if (search) {
-				params.search = search
-			}
-
-			stateRouter.go(null, params)
-		})
-
-		setTimeout(() => {
-			ractive.splice('results', 10, 0, ...allResults.slice(10))
-		}, 50)
-
 	}
 })
 
 stateRouter.addState({
 	name: 'notFound',
 	route: '(.*)',
-	template: {
-		template: `
-			<div class="header flex vertical-center">
-				<menu></menu>
-			</div>
-			<div class="flex horizontal-center">
-				<h1>Not Found</h1>
-			</div>
-		`,
-		components: {
-			searchResults: searchResultsComponent,
-			menu: menuComponent
-		},
-	},
+	template: require('./not-found.html')
 })
 
 stateRouter.evaluateCurrentRoute('search', { type: 'video' })
