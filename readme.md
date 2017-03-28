@@ -1,6 +1,6 @@
 # To run/develop locally
 
-[Node](https://nodejs.org/) 6 required.
+[Node](https://nodejs.org/) 7.6.0+ required.
 
 ```sh
 git clone https://github.com/TehShrike/susd-search-site.git

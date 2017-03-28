@@ -1,14 +1,10 @@
 require('loud-rejection/register')
 
-const path = require('path')
-
 const Koa = require('koa')
 const serve = require('koa-static')
 const router = require('koa-router')()
 const compress = require('koa-compress')
 const conditionalGet = require('koa-conditional-get')
-
-const tmpDir = require('os-tmpdir')()
 
 const createCache = require('./download-cache')
 

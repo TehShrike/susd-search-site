@@ -5,9 +5,6 @@ const nodeify = require('then-nodeify')
 const denodeify = require('then-denodeify')
 const download = require('download')
 const pageParser = require('susd-page-parser')
-const pMap = require('p-map')
-
-const path = require('path')
 
 const db = level('susd-data', { valueEncoding: 'json' })
 
@@ -31,7 +28,7 @@ module.exports = function createDownloadingCache({ imageUrlPrefix }) {
 
 		return dataStructure.map(item => {
 			return Object.assign(item, {
-				imageUrl: stripPrefix(item.imageUrl)
+				imageUrl: item.imageUrl && stripPrefix(item.imageUrl)
 			})
 		})
 	}), {

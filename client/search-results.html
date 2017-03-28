@@ -5,12 +5,20 @@
 			<tr>
 				<td class="result-image-dolumn">
 					<externalLink url="{{url}}">
+						{{#if imageUrl}}
 						<img
 							src="/transparent-pixel.png"
 							as-lazy="pathJoin(config.imageServer, naiveDevicePixelRatio, imageUrl)"
 							alt="{{title}}"
 							style="width: 320px; height: 240px"
 						/>
+						{{else}}
+						<img
+							src="/transparent-pixel.png"
+							alt="{{title}}"
+							style="width: 320px; height: 240px"
+						/>
+						{{/if}}
 					</externalLink>
 				</td>
 				<td>
