@@ -28,14 +28,14 @@ module.exports = function createDownloadingCache({ imageUrlPrefix }) {
 
 		return dataStructure.map(item => {
 			return Object.assign(item, {
-				imageUrl: item.imageUrl && stripPrefix(item.imageUrl)
+				imageUrl: item.imageUrl && stripPrefix(item.imageUrl),
 			})
 		})
 	}), {
-		refreshEvery: ms('10 minutes'),
+		refreshEvery: ms('30 minutes'),
 		checkToSeeIfItemsNeedToBeRefreshedEvery: ms('1 minute'),
 		ttl: ms('1 week'),
-		comparison: (previous, current) => !previous || previous.length !== current.length
+		comparison: (previous, current) => !previous || previous.length !== current.length,
 	})
 
 	cache.on('change', type => {
@@ -49,7 +49,7 @@ module.exports = function createDownloadingCache({ imageUrlPrefix }) {
 
 		return {
 			dataPromise,
-			lastModified: lastModified[type] || new Date()
+			lastModified: lastModified[type] || new Date(),
 		}
 	}
 }

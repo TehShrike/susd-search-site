@@ -11,13 +11,13 @@ const createCache = require('./download-cache')
 const app = new Koa()
 
 const getFromCache = createCache({
-	imageUrlPrefix: 'https://www.shutupandsitdown.com/wp-content/uploads/'
+	imageUrlPrefix: 'https://www.shutupandsitdown.com/wp-content/uploads/',
 })
 
 getFromCache('game')
 getFromCache('video')
 
-router.get('/:dataType(game|video)', async (context, next) => {
+router.get('/:dataType(game|video)', async(context, next) => {
 	const { dataType } = context.params
 
 	context.set('Content-Type', 'application/javascript')
