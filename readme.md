@@ -16,6 +16,14 @@ That's all you should need to do to run it locally.  If that doesn't work for yo
 
 To develop the client side app, run `npm run watch` in another terminal window to have a process automatically watch for changes and rebuild the client app when necessary.
 
+### Docker
+Alternatively, you can build and run the app using Docker:
+```sh
+docker build -t susd-search .
+docker run -p 8888:8888 susd-search
+```
+which also makes the server run at [localhost:8888](http://localhost:8888/).
+
 # Image server
 
 The automatically-resized-images server code is at [susd-image-mirror](https://github.com/TehShrike/susd-image-mirror).
