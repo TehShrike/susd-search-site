@@ -45,7 +45,7 @@
     "koa-compress": "2.0.0",
     "koa-conditional-get": "2.0.0",
     "koa-router": "7.0.1",
-    "koa-static": "3.0.0",
+    "koa-static": "5.0.0",
     "level-mem": "0.18.0",
     "levelup-cache": "2.3.0",
     "loud-rejection": "1.6.0",
