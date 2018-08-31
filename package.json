@@ -9,9 +9,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "browserify client/index.js -o public/build.js",
-    "watch": "watchify client/index.js -o public/build.js -d",
+    "watch": "NODE_ENV=development watchify client/index.js -o public/build.js -d",
     "start": "node server.js",
-    "startdev": "nodemon server.js"
+    "startdev": "nodemon server.js",
+    "deploy:staging": "NODE_ENV=staging npm run build && up deploy staging",
+    "deploy:production": "NODE_ENV=production npm run build && up deploy production"
   },
   "repository": {
     "type": "git",
@@ -40,6 +42,7 @@
     "babelify": "7.3.0",
     "browserify": "13.1.0",
     "download": "5.0.2",
+    "envify": "4.1.0",
     "key-master": "2.0.1",
     "koa": "2.5.2",
     "koa-compress": "2.0.0",
@@ -82,6 +85,9 @@
       ],
       [
         "stringify"
+      ],
+      [
+        "envify"
       ]
     ]
   }
