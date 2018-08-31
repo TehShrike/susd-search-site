@@ -1,0 +1,16 @@
+language: node_js
+node_js:
+  - "10"
+script:
+  - npm run build
+deploy:
+  - provider: script
+    skip_cleanup: true
+    script: npm run deploy:production
+    on:
+      branch: master
+  - provider: script
+    skip_cleanup: true
+    script: npm run deploy:staging
+    on:
+      branch: staging
