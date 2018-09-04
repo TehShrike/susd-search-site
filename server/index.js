@@ -17,6 +17,10 @@ const getFromCache = createCache({
 getFromCache('game')
 getFromCache('video')
 
+router.get('/robots.txt', async(context) => {
+	context.body = process.env.UP_STAGE === 'production' ? '' : `User-agent: *\nDisallow: /\n`
+})
+
 router.get('/:dataType(game|video)', async(context, next) => {
 	const { dataType } = context.params
 
