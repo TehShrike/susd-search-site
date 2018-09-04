@@ -7,15 +7,19 @@
 	},
 	"stages": {
 		"staging": {
-			"domain": "staging.susdsearch.com"
+			"domain": "staging.susdsearch.com",
+			"lambda": {
+				"warm": false,
+				"runtime": "nodejs8.10"
+			}
 		},
 		"production": {
-			"domain": "susdsearch.com"
+			"domain": "susdsearch.com",
+			"lambda": {
+				"warm": true,
+				"warm_count": 2,
+				"runtime": "nodejs8.10"
+			}
 		}
-	},
-	"lambda": {
-		"warm": true,
-		"warm_count": 5,
-		"runtime": "nodejs8.10"
 	}
 }
