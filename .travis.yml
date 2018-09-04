@@ -6,11 +6,11 @@ script:
 deploy:
   - provider: script
     skip_cleanup: true
-    script: npm run deploy:production
+    script: ./install-up.sh && npm run deploy:production
     on:
       branch: master
   - provider: script
     skip_cleanup: true
-    script: npm run deploy:staging
+    script: ./install-up.sh && npm run deploy:staging
     on:
       branch: staging
