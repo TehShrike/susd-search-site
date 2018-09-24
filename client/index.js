@@ -5,13 +5,10 @@ const lazyloadDecorator = require('ractive-lazyload-img')
 
 const searchData = require('./search-data')
 const makeActiveDecorator = require('ractive-state-router/active-decorator')
-const sendAnalyticsBasedOnStateChanges = require('./google-analytics')
 
 const renderer = makeRactiveStateRenderer(Ractive)
 
 const stateRouter = StateRouter(renderer, '#container')
-
-sendAnalyticsBasedOnStateChanges(stateRouter)
 
 Ractive.decorators.selectOnFocus = require('ractive-select-on-focus')
 Ractive.defaults.data.config = require('../config')
