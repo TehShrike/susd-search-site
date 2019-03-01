@@ -54,7 +54,7 @@
     "ractive": "0.8.3",
     "ractive-lazyload-img": "1.0.0",
     "ractive-select-on-focus": "1.1.0",
-    "ractive-state-router": "~7.1.0",
+    "ractive-state-router": "8.0.0",
     "sanitize-filename": "1.6.1",
     "stringify": "5.2.0",
     "susd-page-parser": "1.0.0",
