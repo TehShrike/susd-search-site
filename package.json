@@ -11,7 +11,6 @@
     "build": "browserify client/index.js -o public/build.js",
     "watch": "NODE_ENV=development watchify client/index.js -o public/build.js -d",
     "start": "node server.js",
-    "startdev": "nodemon server.js",
     "deploy:staging": "NODE_ENV=staging npm run build && up deploy staging",
     "deploy:production": "NODE_ENV=production npm run build && up deploy production"
   },
@@ -41,11 +40,6 @@
     "download": "5.0.2",
     "envify": "4.1.0",
     "key-master": "2.0.1",
-    "koa": "2.5.2",
-    "koa-compress": "2.0.0",
-    "koa-conditional-get": "2.0.0",
-    "koa-router": "7.0.1",
-    "koa-static": "5.0.0",
     "level-mem": "3.0.1",
     "levelup-cache": "2.3.0",
     "loud-rejection": "1.6.0",
@@ -54,6 +48,9 @@
     "os-tmpdir": "1.0.2",
     "p-filter": "1.0.0",
     "p-map": "1.0.0",
+    "polkadot": "1.0.0",
+    "polkadot-middleware": "1.0.1",
+    "polkadot-router": "2.1.0",
     "ractive": "0.8.3",
     "ractive-lazyload-img": "1.0.0",
     "ractive-select-on-focus": "1.1.0",
@@ -66,7 +63,6 @@
     "url-join": "1.1.0"
   },
   "devDependencies": {
-    "nodemon": "1.18.3",
     "watchify": "3.11.0"
   },
   "browserify": {

@@ -1,48 +1,152 @@
-require('loud-rejection/register')
+require(`loud-rejection/register`)
 
-const Koa = require('koa')
-const serve = require('koa-static')
-const router = require('koa-router')()
-const compress = require('koa-compress')
-const conditionalGet = require('koa-conditional-get')
+const polkadot = require(`polkadot`)
+const middleware = require(`polkadot-middleware`)
+const router = require(`polkadot-router`)
 
-const createCache = require('./download-cache')
+const fs = require(`fs`)
+const path = require(`path`)
 
-const app = new Koa()
+const relative = relativePath => path.join(__dirname, relativePath)
+
+const HEADERS = {
+	contentType: `Content-Type`,
+	cacheControl: `Cache-Control`,
+	lastModified: `Last-Modified`,
+}
+
+const CONTENT_TYPES = {
+	html: `text/html; charset=utf-8`,
+	png: `image/png`,
+	svg: `image/svg+xml`,
+	jpg: `image/jpeg`,
+	txt: `text/plain; charset=utf-8`,
+	css: `text/css`,
+	js: `application/javascript`,
+	xml: `application/xml`,
+	json: `application/json`,
+	ico: `image/x-icon`,
+}
+
+const createCache = require(`./download-cache`)
 
 const getFromCache = createCache({
-	imageUrlPrefix: 'https://www.shutupandsitdown.com/wp-content/uploads/',
+	imageUrlPrefix: `https://www.shutupandsitdown.com/wp-content/uploads/`,
 })
 
-getFromCache('game')
-getFromCache('video')
+getFromCache(`game`)
+getFromCache(`video`)
 
-router.get('/robots.txt', async(context) => {
-	context.body = process.env.UP_STAGE === 'production' ? '' : `User-agent: *\nDisallow: /\n`
-})
+module.exports = () => middleware(
+	polkadot,
+	handleErrors,
+	cacheControlHeaders,
+	noFuckingAroundNow,
+	router({
+		GET: {
+			'/robots.txt': () => process.env.UP_STAGE === `production` ? `` : `User-agent: *\nDisallow: /\n`,
+			'/': servePath(relative(`../public/index.html`)),
+			'/:dataType(game|video)': async(req, res) => {
+				const { dataType } = req.params
 
-router.get('/:dataType(game|video)', async(context, next) => {
-	const { dataType } = context.params
+				res.setHeader(HEADERS.contentType, CONTENT_TYPES.js)
+				const { dataPromise, lastModified } = getFromCache(dataType)
 
-	context.set('Content-Type', 'application/javascript')
-	context.set('Cache-Control', 'public, must-revalidate')
+				res.setHeader(HEADERS.lastModified, lastModified.toUTCString())
 
-	const { dataPromise, lastModified } = getFromCache(dataType)
+				return dataPromise
+			},
+			'/*': figureOutFilePathAndThen(relative(`../public`), servePath),
+		},
+		HEAD: {
+			'/robots.txt': () => ``,
+			'/': statusAndHeaderForFile(relative(`../public/index.html`)),
+			'/:dataType(game|video)': async(req, res) => {
+				const { dataType } = req.params
 
-	context.set('Last-Modified', lastModified.toUTCString())
+				res.setHeader(HEADERS.contentType, CONTENT_TYPES.js)
+				const { lastModified } = getFromCache(dataType)
 
-	if (context.stale) {
-		await next()
-		context.body = await dataPromise
+				res.setHeader(HEADERS.lastModified, lastModified.toUTCString())
+			},
+			'/*': figureOutFilePathAndThen(relative(`../public`), statusAndHeaderForFile),
+		},
+	}, (req, res) => {
+		res.statusCode = 405
+		res.setHeader(HEADERS.contentType, CONTENT_TYPES.txt)
+		return `¯\\_(ツ)_/¯`
+	})
+)
+
+const handleErrors = next => async(req, res) => {
+	try {
+		return await next(req, res)
+	} catch (err) {
+		res.statusCode = 500
+
+		return err.message || err
 	}
+}
+
+const MAX_AGE_SECONDS = 60 * 60
+const cacheControlHeaders = next => async(req, res) => {
+	const body = await next(req, res)
+
+	res.setHeader(HEADERS.cacheControl, `public, max-age=` + MAX_AGE_SECONDS)
+
+	return body
+}
+
+const noFuckingAroundNow = next => (req, res) => {
+	if (req.path.split(`/`).some(chunk => chunk === `..`)) {
+		console.log(`Detected some fucking around`)
+		res.statusCode = 404
+		return
+	}
+
+	return next(req, res)
+}
+
+const fileExists = path => new Promise((resolve, reject) => {
+	fs.access(path, fs.constants.R_OK, err => {
+		const readable = !err
+		resolve(readable)
+	})
 })
 
-app.use(conditionalGet())
+const statusAndHeaderForFile = path => async(req, res) => {
+	if (!await fileExists(path)) {
+		res.statusCode = 404
+		res.setHeader(HEADERS.contentType, CONTENT_TYPES.txt)
+		return ``
+	} else {
+		const contentType = CONTENT_TYPES[getExtension(path)] || null
 
-app.use(compress())
+		contentType && res.setHeader(HEADERS.contentType, contentType)
+	}
+}
 
-app.use(router.routes())
+const servePath = path => async(req, res) => {
+	await statusAndHeaderForFile(path)(req, res)
 
-app.use(serve('./public/'))
+	if (res.statusCode === 404) {
+		return `File not found`
+	}
 
-module.exports = app
+	return fs.createReadStream(path)
+}
+
+const figureOutFilePathAndThen = (root, fn) => (req, res) => {
+	const requestPath = req.path
+	const filePath = path.join(root, requestPath)
+
+	return fn(filePath)(req, res)
+}
+
+const getExtension = inputPath => {
+	const ext = path.extname(inputPath)
+
+	return ext
+		? ext.slice(1)
+		: null
+}
