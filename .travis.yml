@@ -7,7 +7,7 @@ script:
 deploy:
   - provider: script
     skip_cleanup: true
-    monscript: ./install-up.sh && npm run deploy:production && up prune --retain=5
+    script: ./install-up.sh && npm run deploy:production && up prune --retain=5
     on:
       branch: master
   - provider: script
