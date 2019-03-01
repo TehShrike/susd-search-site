@@ -2,6 +2,9 @@
 	"name": "susd-search-site2",
 	"profile": "josh",
 	"regions": ["us-east-1"],
+	"hooks": {
+		"build": "echo no build"
+	},
 	"stages": {
 		"staging": {
 			"domain": "staging.susdsearch.com",
