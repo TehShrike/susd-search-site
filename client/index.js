@@ -10,6 +10,7 @@ const renderer = makeRactiveStateRenderer(Ractive)
 
 const stateRouter = StateRouter(renderer, `#container`)
 
+Ractive.DEBUG = process.env.NODE_ENV === `development`
 Ractive.decorators.selectOnFocus = require(`ractive-select-on-focus`)
 Ractive.defaults.data.config = require(`../config`)
 
