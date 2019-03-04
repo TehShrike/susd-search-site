@@ -1,2 +1,4 @@
 node_modules
 public/build.js
+public/gameData.json
+public/videoData.json

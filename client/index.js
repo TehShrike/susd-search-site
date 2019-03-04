@@ -15,8 +15,8 @@ Ractive.decorators.selectOnFocus = require(`ractive-select-on-focus`)
 Ractive.defaults.data.config = require(`../config`)
 
 const searchTypes = {
-	video: searchData(`/video`),
-	game: searchData(`/game`),
+	video: searchData(`./videoData.json`),
+	game: searchData(`./gameData.json`),
 }
 
 const externalLink = Ractive.extend({
