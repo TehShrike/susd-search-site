@@ -23,6 +23,9 @@ prep_deploy: &prep_deploy
   run:
     name: Prep deploy
     command: |
+      # Install Python
+      sudo apt-get update
+      sudo apt-get install python3.6
       # Install awscli
       sudo pip install awscli
 
