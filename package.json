@@ -10,9 +10,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "browserify client/index.js -o public/build.js",
     "watch": "NODE_ENV=development watchify client/index.js -o public/build.js -d",
-    "start": "node server.js",
-    "deploy:staging": "NODE_ENV=staging npm run build && up deploy staging",
-    "deploy:production": "NODE_ENV=production npm run build && up deploy production"
+    "deploy:production": "NODE_ENV=production npm run build && npm run download:data && aws s3 sync public s3://susdsearch.com --delete --size-only",
+    "download:data": "node ./download-susd-data.js",
+    "set-bucket-policy": "aws s3api put-bucket-policy --bucket susdsearch.com --policy file://bucket-policy.json"
   },
   "repository": {
     "type": "git",
@@ -48,9 +48,6 @@
     "os-tmpdir": "1.0.2",
     "p-filter": "1.0.0",
     "p-map": "1.0.0",
-    "polkadot": "1.0.0",
-    "polkadot-middleware": "1.0.1",
-    "polkadot-router": "2.1.0",
     "ractive": "0.8.3",
     "ractive-lazyload-img": "1.0.0",
     "ractive-select-on-focus": "1.1.0",

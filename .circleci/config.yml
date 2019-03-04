@@ -23,12 +23,9 @@ prep_deploy: &prep_deploy
   run:
     name: Prep deploy
     command: |
-      sudo chown -R $(whoami) /usr/local/bin
-      # Install Up
-      curl -sf https://up.apex.sh/install | sh
-      # Upgrade Up
-      up upgrade
-
+      - run:
+      # Install awscli
+      command: sudo pip install awscli
 
 jobs:
   install_and_build:
@@ -59,10 +56,7 @@ jobs:
       - *prep_deploy
       - run:
           name: Deploy to Up
-          command: up --format=plain deploy production
-      - run:
-          name: Prune Up deployments
-          command: up prune --retain=5
+          command: npm run deploy:production
 
 workflows:
   version: 2
