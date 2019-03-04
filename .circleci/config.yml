@@ -25,9 +25,9 @@ prep_deploy: &prep_deploy
     command: |
       # Install Python
       sudo apt-get install software-properties-common
-      yes | sudo add-apt-repository ppa:deadsnakes/ppa
+      yes | sudo add-apt-repository ppa:jonathonf/python-3.6
       sudo apt-get update
-      sudo apt-get install python3.6
+      sudo apt-get install -y python3.6
       # Install awscli
       sudo pip install awscli
 
