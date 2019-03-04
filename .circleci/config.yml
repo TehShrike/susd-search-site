@@ -24,7 +24,7 @@ prep_deploy: &prep_deploy
     name: Prep deploy
     command: |
       # Install awscli
-      command: sudo pip install awscli
+      sudo pip install awscli
 
 jobs:
   install_and_build:
