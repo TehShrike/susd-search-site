@@ -74,6 +74,16 @@ workflows:
           filters:
             branches:
               only: master
+  install_and_test_and_deploy2:
+    jobs:
+      - install_and_build
+      - deploy_production:
+          context: apex-up
+          requires:
+            - install_and_build
+          filters:
+            branches:
+              only: master
     triggers:
       - schedule:
           cron: "0 * * * *"
