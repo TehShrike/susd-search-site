@@ -74,3 +74,10 @@ workflows:
           filters:
             branches:
               only: master
+    triggers:
+      - schedule:
+          cron: "*/30 * * * *"
+          filters:
+            branches:
+              only:
+                - master
