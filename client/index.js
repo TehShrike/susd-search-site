@@ -1,7 +1,7 @@
 const StateRouter = require(`abstract-state-router`)
 const Ractive = require(`ractive`)
 const makeRactiveStateRenderer = require(`ractive-state-router`)
-const lazyloadDecorator = require(`ractive-lazyload-img`)
+const lazyloadDecorator = require(`./lazyload-img.js`)
 
 const searchData = require(`./search-data`)
 const makeActiveDecorator = require(`ractive-state-router/active-decorator`)
@@ -12,7 +12,6 @@ const stateRouter = StateRouter(renderer, `#container`)
 
 Ractive.DEBUG = process.env.NODE_ENV === `development`
 Ractive.decorators.selectOnFocus = require(`ractive-select-on-focus`)
-Ractive.defaults.data.config = require(`../config`)
 
 const searchTypes = {
 	video: searchData(`./videoData.json`),
@@ -66,8 +65,8 @@ const searchResultsComponent = Ractive.extend({
 	},
 	data: () => ({
 		results: [],
-		naiveDevicePixelRatio: (window.devicePixelRatio > 1 ? 2 : 1),
-		pathJoin: require(`url-join`),
+		pixelRatio: Math.min(Math.ceil(window.devicePixelRatio), 3),
+		sanitizeFilename: require(`sanitize-filename`),
 	}),
 })
 

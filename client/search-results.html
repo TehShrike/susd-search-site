@@ -7,14 +7,14 @@
 					<externalLink url="{{url}}">
 						{{#if imageUrl}}
 						<img
-							src="/transparent-pixel.png"
-							as-lazy="pathJoin(config.imageServer, naiveDevicePixelRatio, imageUrl)"
+							src="./transparent-pixel.png"
+							as-lazy="'./images/' + pixelRatio + '/' + sanitizeFilename(imageUrl)"
 							alt="{{title}}"
 							style="width: 320px; height: 240px"
 						/>
 						{{else}}
 						<img
-							src="/transparent-pixel.png"
+							src="./transparent-pixel.png"
 							alt="{{title}}"
 							style="width: 320px; height: 240px"
 						/>

@@ -1,6 +1,7 @@
 const fs = require(`fs`)
 const download = require(`download`)
 const pageParser = require(`susd-page-parser`)
+const downloadImages = require(`./download-and-resize-images.js`)
 
 const imageUrlPrefix = `https://www.shutupandsitdown.com/wp-content/uploads/`
 
@@ -30,6 +31,16 @@ const main = async() => {
 
 	fs.writeFileSync(`./public/videoData.json`, JSON.stringify(videoData), { encoding: `utf8` })
 	fs.writeFileSync(`./public/gameData.json`, JSON.stringify(gameData), { encoding: `utf8` })
+
+	const imageUrls = [
+		...videoData,
+		...gameData,
+	].map(({ imageUrl }) => imageUrl)
+
+	await downloadImages({
+		imageUrls,
+	})
 }
 
 main()
+
