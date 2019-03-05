@@ -11,6 +11,7 @@ const addresses = {
 }
 
 const stripPrefix = url => url.substring(imageUrlPrefix.length)
+const [ ,, argument ] = process.argv
 
 
 const downloadData = async type => {
@@ -39,6 +40,7 @@ const main = async() => {
 
 	await downloadImages({
 		imageUrls,
+		downloadFilesAlreadyInS3: argument === `all-images`,
 	})
 }
 
