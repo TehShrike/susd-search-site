@@ -10,4 +10,3 @@ npm run dev
 ```
 
 Your browser window should automatically open to the root of a static server that defaults to launching on port 8080.
-The server should be running at [localhost:8888](http://localhost:8888/).
