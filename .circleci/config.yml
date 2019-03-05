@@ -26,6 +26,8 @@ prep_deploy: &prep_deploy
       # Install pip
       curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
       sudo python get-pip.py
+      # awscli dependencies
+      sudo apt-get install python-dev
       # Install awscli
       sudo pip install awscli
 
