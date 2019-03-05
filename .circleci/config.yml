@@ -23,11 +23,9 @@ prep_deploy: &prep_deploy
   run:
     name: Prep deploy
     command: |
-      # Install Python
-      sudo apt-get install software-properties-common
-      yes | sudo add-apt-repository ppa:jonathonf/python-3.6
-      sudo apt-get update
-      sudo apt-get install -y python3.6
+      # Install pip
+      curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+      sudo python get-pip.py
       # Install awscli
       sudo pip install awscli
 
@@ -49,7 +47,7 @@ jobs:
           paths:
             - node_modules
             - public
-  deploy_up_production:
+  deploy_production:
     <<: *defaults
     steps:
       - *git_restore_cache
@@ -59,7 +57,7 @@ jobs:
           at: ~/repo
       - *prep_deploy
       - run:
-          name: Deploy to Up
+          name: Deploy to S3
           command: npm run deploy:production
 
 workflows:
@@ -67,7 +65,7 @@ workflows:
   install_and_test_and_deploy:
     jobs:
       - install_and_build
-      - deploy_up_production:
+      - deploy_production:
           context: apex-up
           requires:
             - install_and_build
