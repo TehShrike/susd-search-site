@@ -12,6 +12,8 @@
     "watch": "NODE_ENV=development watchify client/index.js -o public/build.js -d",
     "deploy:production": "NODE_ENV=production npm run build && npm run download:data && aws s3 sync public s3://susdsearch.com --delete --size-only",
     "download:data": "node ./download-susd-data.js",
+    "serve": "live-server --wait=500 public",
+    "dev": "npm-run-all download:data build --parallel watch serve",
     "set-bucket-policy": "aws s3api put-bucket-policy --bucket susdsearch.com --policy file://bucket-policy.json"
   },
   "repository": {
@@ -45,6 +47,7 @@
     "loud-rejection": "1.6.0",
     "mkdirp": "0.5.1",
     "ms": "0.7.2",
+    "npm-run-all": "^4.1.5",
     "os-tmpdir": "1.0.2",
     "p-filter": "1.0.0",
     "p-map": "1.0.0",
@@ -60,6 +63,7 @@
     "url-join": "1.1.0"
   },
   "devDependencies": {
+    "live-server": "^1.2.1",
     "watchify": "3.11.1"
   },
   "browserify": {
