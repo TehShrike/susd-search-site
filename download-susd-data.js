@@ -36,7 +36,11 @@ const main = async() => {
 	const imageUrls = [
 		...videoData,
 		...gameData,
-	].map(({ imageUrl }) => imageUrl)
+	].map(
+		({ imageUrl }) => imageUrl
+	).filter(
+		imageUrl => imageUrl
+	)
 
 	await downloadImages({
 		imageUrls,
