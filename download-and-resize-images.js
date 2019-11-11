@@ -75,7 +75,7 @@ const main = async({ imageUrls, downloadFilesAlreadyInS3 = false }) => {
 		async imageUrl => {
 			const filename = sanitizeFilename(imageUrl)
 			const downloadOnce = memoify(() => {
-				const url = resolve(urlPrefix, imageUrl)
+				const url = encodeURI(resolve(urlPrefix, imageUrl))
 				console.log(`downloading`, url)
 				return download(url)
 			})
