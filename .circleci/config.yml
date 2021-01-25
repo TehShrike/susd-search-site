@@ -28,6 +28,8 @@ prep_deploy: &prep_deploy
       sudo python get-pip.py
       # awscli dependencies
       sudo apt-get install python-dev
+      # does this help?
+      sudo pip uninstall aws
       # Install awscli
       sudo pip install awscli
 
