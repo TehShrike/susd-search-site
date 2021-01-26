@@ -24,12 +24,10 @@ prep_deploy: &prep_deploy
     name: Prep deploy
     command: |
       # Install pip
-      curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+      curl https://bootstrap.pypa.io/2.7/get-pip.py -o get-pip.py
       sudo python get-pip.py
       # awscli dependencies
       sudo apt-get install python-dev
-      # does this help?
-      sudo pip uninstall aws
       # Install awscli
       sudo pip install awscli
 
