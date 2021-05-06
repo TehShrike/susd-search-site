@@ -23,11 +23,13 @@ prep_deploy: &prep_deploy
   run:
     name: Prep deploy
     command: |
+      # apt-get python stuff?
+      sudo apt-get install python3-pip python3-dev build-essential
       # Install pip
       curl https://bootstrap.pypa.io/pip/3.5/get-pip.py -o get-pip.py
       sudo python3 get-pip.py
       # awscli dependencies
-      sudo apt-get install python-dev
+      # sudo apt-get install python-dev
       # Install awscli
       sudo pip install awscli
 
