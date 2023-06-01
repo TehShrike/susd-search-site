@@ -24,7 +24,7 @@ prep_deploy: &prep_deploy
     name: Prep deploy
     command: |
       # apt-get python stuff?
-      sudo apt-get install python3-pip python3-dev build-essential
+      #sudo apt-get install python3-pip python3-dev build-essential
       # Install pip
       #curl https://bootstrap.pypa.io/pip/3.5/get-pip.py -o get-pip.py
       #sudo python3 get-pip.py
