@@ -26,12 +26,14 @@ prep_deploy: &prep_deploy
       # apt-get python stuff?
       sudo apt-get install python3-pip python3-dev build-essential
       # Install pip
-      curl https://bootstrap.pypa.io/pip/3.5/get-pip.py -o get-pip.py
-      sudo python3 get-pip.py
+      #curl https://bootstrap.pypa.io/pip/3.5/get-pip.py -o get-pip.py
+      #sudo python3 get-pip.py
       # awscli dependencies
       # sudo apt-get install python-dev
       # Install awscli
-      sudo pip install awscli
+      curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+      unzip awscliv2.zip
+      sudo ./aws/install
 
 jobs:
   install_and_build:
