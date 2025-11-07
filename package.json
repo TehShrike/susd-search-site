@@ -41,7 +41,7 @@
     "abstract-state-router": "~5.14.1",
     "aws-sdk": "^2.415.0",
     "browserify": "16.2.3",
-    "download": "^5.0.2",
+    "cheerio": "^0.22.0",
     "envify": "4.1.0",
     "in-viewport": "^3.6.0",
     "jimp": "^0.6.0",
@@ -55,17 +55,16 @@
     "os-tmpdir": "1.0.2",
     "p-map": "^1.0.0",
     "pify": "^4.0.1",
+    "puppeteer": "^24.29.1",
     "ractive": "0.8.3",
     "ractive-select-on-focus": "1.1.0",
     "ractive-state-router": "8.0.0",
     "sanitize-filename": "1.6.1",
     "stringify": "5.2.0",
-    "susd-page-parser": "1.0.0",
     "then-denodeify": "1.0.0",
     "then-nodeify": "1.0.1",
     "url-join": "1.1.0"
   },
-  "devDependencies": {},
   "browserify": {
     "transform": [
       [

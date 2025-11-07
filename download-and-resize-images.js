@@ -1,7 +1,7 @@
 const pMap = require(`p-map`)
 const pify = require(`pify`)
 
-const download = require(`download`)
+const { downloadBuffer } = require(`./puppeteer-download.js`)
 const Jimp = require(`jimp`)
 const sanitizeFilename = require(`sanitize-filename`)
 const S3 = require(`aws-sdk/clients/s3`)
@@ -70,14 +70,17 @@ const main = async({ imageUrls, downloadFilesAlreadyInS3 = false }) => {
 		? new Set()
 		: new Set(await getAllImagesInBucket())
 
+	console.log(`Processing ${imageUrls.length} image URLs`)
+
 	return pMap(
 		imageUrls,
 		async imageUrl => {
 			const filename = sanitizeFilename(imageUrl)
-			const downloadOnce = memoify(() => {
+			const downloadOnce = memoify(async () => {
 				const url = encodeURI(resolve(urlPrefix, imageUrl))
 				console.log(`downloading`, url)
-				return download(url)
+				const buffer = await downloadBuffer(url)
+				return buffer
 			})
 
 			await pMap(

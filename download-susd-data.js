@@ -1,6 +1,6 @@
 const fs = require(`fs`)
-const download = require(`download`)
-const pageParser = require(`susd-page-parser`)
+const { downloadPage, closeBrowser } = require(`./puppeteer-download.js`)
+const pageParser = require(`./page-parser`)
 const downloadImages = require(`./download-and-resize-images.js`)
 
 const imageUrlPrefix = `https://www.shutupandsitdown.com/wp-content/uploads/`
@@ -13,11 +13,13 @@ const addresses = {
 const stripPrefix = url => url.substring(imageUrlPrefix.length)
 const [ ,, argument ] = process.argv
 
-
 const downloadData = async type => {
-	const html = await download(addresses[type])
+	console.log(`Downloading ${type} page from ${addresses[type]}`)
+	const html = await downloadPage(addresses[type])
+	console.log(`Received HTML, length: ${html.length}`)
 
 	const dataStructure = pageParser(html)
+	console.log(`Parsed ${dataStructure.length} ${type} items`)
 
 	return dataStructure.map(item => Object.assign(item, {
 		imageUrl: item.imageUrl && stripPrefix(item.imageUrl),
@@ -51,5 +53,7 @@ const main = async() => {
 main().catch(err => {
 	console.error(err)
 	process.exit(1)
+}).finally(async () => {
+	await closeBrowser()
 })
 
