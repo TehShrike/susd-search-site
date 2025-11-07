@@ -48,12 +48,16 @@ const main = async() => {
 		imageUrls,
 		downloadFilesAlreadyInS3: argument === `all-images`,
 	})
+
+	console.log('Done downloading images')
 }
 
 main().catch(err => {
 	console.error(err)
 	process.exit(1)
 }).finally(async () => {
+	console.log('Closing browser...')
 	await closeBrowser()
+	console.log('Browser closed')
 })
 

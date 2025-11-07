@@ -59,7 +59,7 @@ function resizeAndWriteToDisk({ data, width, height, outputPath }) {
 	})
 }
 
-const main = async({ imageUrls, downloadFilesAlreadyInS3 = false }) => {
+const downloadAndResizeImages = async({ imageUrls, downloadFilesAlreadyInS3 = false }) => {
 	console.log(
 		downloadFilesAlreadyInS3
 			? `Downloading files even if they're in S3 already`
@@ -116,7 +116,7 @@ const main = async({ imageUrls, downloadFilesAlreadyInS3 = false }) => {
 	)
 }
 
-module.exports = main
+module.exports = downloadAndResizeImages
 
 const memoify = fn => {
 	let value
@@ -128,13 +128,3 @@ const memoify = fn => {
 		return value
 	}
 }
-
-// main({
-// 	imageUrls: [
-// 		...require(`./public/videoData.json`),
-// 		...require(`./public/gameData.json`),
-// 	].map(({ imageUrl }) => imageUrl),
-// }).catch(err => {
-// 	console.error(err)
-// 	process.exit(1)
-// })
