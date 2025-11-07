@@ -59,5 +59,6 @@ main().catch(err => {
 	console.log('Closing browser...')
 	await closeBrowser()
 	console.log('Browser closed')
+	process.exit(0)
 })
 
