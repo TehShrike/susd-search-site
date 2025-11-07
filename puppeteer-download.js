@@ -4,7 +4,7 @@ let browserInstance = null
 
 const getBrowser = async () => {
 	if (!browserInstance) {
-		const launchOptions = {
+		browserInstance = await puppeteer.launch({
 			headless: true,
 			args: [
 				'--no-sandbox',
@@ -12,13 +12,7 @@ const getBrowser = async () => {
 				'--disable-dev-shm-usage',
 				'--disable-gpu',
 			],
-		}
-
-		if (process.env.CI || process.env.CIRCLECI) {
-			launchOptions.executablePath = '/usr/bin/google-chrome'
-		}
-
-		browserInstance = await puppeteer.launch(launchOptions)
+		})
 	}
 	return browserInstance
 }

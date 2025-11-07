@@ -1,4 +1,7 @@
-version: 2
+version: 2.1
+
+orbs:
+  browser-tools: circleci/browser-tools@1.4.8
 
 defaults: &defaults
   working_directory: ~/repo
@@ -61,6 +64,8 @@ jobs:
       - *git_save_cache
       - attach_workspace:
           at: ~/repo
+      - browser-tools/install-chrome:
+          chrome-version: "141.0.6384.0"
       - *prep_deploy
       - run:
           name: Deploy to S3
