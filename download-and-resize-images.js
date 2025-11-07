@@ -106,6 +106,8 @@ const main = async({ imageUrls, downloadFilesAlreadyInS3 = false }) => {
 							height,
 							outputPath,
 						})
+
+						console.log('Done resizing and writing to disk', outputPath)
 					}
 				}
 			)
