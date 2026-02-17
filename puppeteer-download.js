@@ -39,7 +39,7 @@ const downloadPage = async (url) => {
 
 	await page.goto(url, {
 		waitUntil: 'networkidle2',
-		timeout: 60000,
+		timeout: 120000,
 	})
 
 	try {
@@ -63,7 +63,7 @@ const downloadBuffer = async (url) => {
 
 	const response = await page.goto(url, {
 		waitUntil: 'networkidle2',
-		timeout: 60000,
+		timeout: 120000,
 	})
 
 	if (!response || !response.ok()) {
